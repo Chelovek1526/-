@@ -36,7 +36,7 @@
   .sidebar {
     grid-row: 1; grid-column: 1;
     background: #000; padding: 20px 12px;
-    overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+    overflow-y: auto; display: flex; flex-direction: column; gap: 4px;
   }
   .logo { display: flex; align-items: center; gap: 10px; padding: 0 8px 18px; font-size: 20px; font-weight: 700; }
   .logo .dot { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; color: #000; font-size: 15px; }
@@ -48,7 +48,16 @@
   .nav-item:hover { color: #fff; background: #1a1a1a; }
   .nav-item.active { color: #fff; background: #1f1f1f; }
   .nav-item svg { flex-shrink: 0; }
-  .side-title { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 1.2px; padding: 18px 12px 8px; text-transform: uppercase; }
+  .side-title {
+    color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    padding: 18px 12px 8px; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .side-title button {
+    color: var(--muted); font-size: 20px; width: 24px; height: 24px; border-radius: 50%;
+    display: grid; place-items: center; line-height: 1; transition: .15s;
+  }
+  .side-title button:hover { color: #fff; background: #2a2a2a; }
   .side-album {
     display: flex; align-items: center; gap: 10px; padding: 7px 10px;
     border-radius: 6px; font-size: 13px; color: var(--muted); transition: .15s; width: 100%; text-align: left;
@@ -56,6 +65,7 @@
   .side-album:hover { background: #1a1a1a; color: #fff; }
   .side-album .mini-cover { width: 34px; height: 34px; border-radius: 4px; flex-shrink: 0; display: grid; place-items: center; font-size: 11px; font-weight: 700; overflow: hidden; }
   .side-album .mini-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .side-album .mini-cover.pl { border-radius: 50%; }
 
   /* ---------- MAIN ---------- */
   .main {
@@ -85,6 +95,7 @@
     display: grid; place-items: center; font-size: 34px; font-weight: 800; color: rgba(255,255,255,.85);
     position: relative; box-shadow: 0 6px 20px rgba(0,0,0,.5);
   }
+  .card-cover.pl { border-radius: 50%; }
   .card-cover img { width: 100%; height: 100%; object-fit: cover; }
   .card-play {
     position: absolute; right: 10px; bottom: 10px; width: 44px; height: 44px; border-radius: 50%;
@@ -121,16 +132,18 @@
   .track-row:hover .tr-menu { opacity: 1; }
   .tr-menu:hover { background: #3a3a3a; color: #fff; }
 
-  /* album header */
+  /* album/playlist header */
   .album-header { display: flex; gap: 26px; align-items: flex-end; padding: 22px 0 30px; }
   .album-header .big-cover {
     width: 200px; height: 200px; border-radius: 8px; flex-shrink: 0;
     display: grid; place-items: center; font-size: 62px; font-weight: 800; color: rgba(255,255,255,.9);
     box-shadow: 0 12px 40px rgba(0,0,0,.6); overflow: hidden;
   }
+  .album-header .big-cover.pl { border-radius: 50%; }
   .album-header .big-cover img { width: 100%; height: 100%; object-fit: cover; }
   .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .album-header h1 { font-size: 48px; margin: 0 0 14px; line-height: 1.05; }
+  .album-header .pl-desc { font-size: 13px; color: var(--muted); margin-bottom: 6px; max-width: 600px; }
 
   .btn {
     padding: 10px 22px; border-radius: 500px; font-weight: 700; font-size: 14px;
@@ -204,10 +217,6 @@
   .icon-btn { color: var(--muted); display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; transition: .15s; }
   .icon-btn:hover { color: #fff; }
   .icon-btn.on { color: var(--accent); }
-  .icon-btn.on::after {
-    content: ''; position: absolute; width: 4px; height: 4px; border-radius: 50%;
-    background: var(--accent); margin-top: 30px;
-  }
   .play-btn {
     width: 40px; height: 40px; border-radius: 50%; background: #fff; color: #000;
     display: grid; place-items: center; transition: .15s;
@@ -250,14 +259,33 @@
   .modal-bg.show { display: flex; }
   .modal {
     background: #1e1e1e; border-radius: 12px; padding: 24px; width: 100%; max-width: 520px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.8);
+    box-shadow: 0 20px 60px rgba(0,0,0,.8); max-height: 85vh; display: flex; flex-direction: column;
   }
-  .modal h3 { margin-bottom: 16px; font-size: 18px; }
-  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal h3 { margin-bottom: 16px; font-size: 18px; flex-shrink: 0; }
+  .modal > #modalBody { overflow-y: auto; flex: 1; min-height: 0; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; flex-shrink: 0; }
+
+  /* modal list for add-to-playlist */
+  .modal-list { display: flex; flex-direction: column; gap: 4px; }
+  .modal-list-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px; border-radius: 8px; text-align: left; width: 100%; transition: .15s;
+  }
+  .modal-list-item:hover:not(:disabled) { background: #2a2a2a; }
+  .modal-list-item:disabled { opacity: .5; cursor: not-allowed; }
+  .mli-cover {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center; font-size: 14px; font-weight: 700;
+    overflow: hidden;
+  }
+  .mli-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .mli-info { min-width: 0; flex: 1; }
+  .mli-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mli-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
   .ctx-menu {
     position: fixed; background: #282828; border-radius: 6px; padding: 6px; z-index: 200;
-    box-shadow: 0 10px 30px rgba(0,0,0,.7); min-width: 190px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.7); min-width: 200px;
   }
   .ctx-menu button {
     display: block; width: 100%; text-align: left; padding: 10px 14px;
@@ -282,130 +310,71 @@
      ==================   MOBILE   =============================
      ============================================================ */
   @media (max-width: 768px) {
-
-    .app {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto 1fr auto;
-      height: 100vh;
-      height: 100dvh;
-    }
+    .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; height: 100vh; height: 100dvh; }
 
     .mobile-header {
-      display: flex;
-      grid-row: 1; grid-column: 1;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      background: #000;
-      border-bottom: 1px solid #1a1a1a;
-      z-index: 50;
+      display: flex; grid-row: 1; grid-column: 1;
+      align-items: center; justify-content: space-between;
+      padding: 10px 14px; background: #000; border-bottom: 1px solid #1a1a1a; z-index: 50;
     }
-    .mobile-logo {
-      font-size: 17px; font-weight: 700;
-      display: flex; align-items: center;
-    }
+    .mobile-logo { font-size: 17px; font-weight: 700; display: flex; align-items: center; }
     .mobile-logo .mini-dot {
-      display: inline-grid; width: 22px; height: 22px;
-      border-radius: 50%; background: var(--accent); color: #000;
-      place-items: center; font-size: 13px; margin-right: 8px;
+      display: inline-grid; width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent); color: #000; place-items: center; font-size: 13px; margin-right: 8px;
     }
 
     .sidebar {
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      width: 280px;
-      max-width: 82vw;
-      z-index: 90;
-      transform: translateX(-100%);
-      transition: transform .25s cubic-bezier(.4,0,.2,1);
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 280px; max-width: 82vw; z-index: 90;
+      transform: translateX(-100%); transition: transform .25s cubic-bezier(.4,0,.2,1);
       box-shadow: 4px 0 24px rgba(0,0,0,.7);
-      grid-row: auto; grid-column: auto;
-      padding-top: 18px;
+      grid-row: auto; grid-column: auto; padding-top: 18px;
     }
     .sidebar.open { transform: none; }
-
-    .sidebar-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.6);
-      z-index: 85;
-      display: none;
-    }
+    .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 85; display: none; }
     .sidebar-overlay.show { display: block; }
 
-    .main {
-      grid-row: 2; grid-column: 1;
-      background: linear-gradient(180deg, #1c1c1c 0%, #121212 220px);
-    }
+    .main { grid-row: 2; grid-column: 1; background: linear-gradient(180deg, #1c1c1c 0%, #121212 220px); }
 
     .player {
       grid-row: 3; grid-column: 1;
       display: grid;
       grid-template-columns: 44px minmax(0, 1fr) auto auto;
-      grid-template-areas:
-        "cover info  controls lyrics"
-        "progress progress progress progress";
-      gap: 6px 8px;
-      padding: 8px 12px 10px;
-      height: auto;
-      align-items: center;
+      grid-template-areas: "cover info controls lyrics" "progress progress progress progress";
+      gap: 6px 8px; padding: 8px 12px 10px; height: auto; align-items: center;
     }
     .p-left, .p-center { display: contents; }
     .p-cover { grid-area: cover; width: 44px; height: 44px; font-size: 13px; }
     .p-cover img { border-radius: 4px; }
-    .p-info  { grid-area: info; min-width: 0; }
+    .p-info { grid-area: info; min-width: 0; }
     .p-title { font-size: 13px; }
-    .p-artist{ font-size: 11px; margin-top: 2px; }
-
+    .p-artist { font-size: 11px; margin-top: 2px; }
     .p-controls { grid-area: controls; gap: 0; }
-    .p-controls > #shuffleBtn,
-    .p-controls > #repeatBtn { display: none; }
-
-    .p-right {
-      grid-area: lyrics;
-      width: auto; min-width: 0; gap: 0;
-      justify-content: flex-end;
-    }
-    .p-right > svg,
-    .p-right > input[type=range] { display: none; }
-
+    .p-controls > #shuffleBtn, .p-controls > #repeatBtn { display: none; }
+    .p-right { grid-area: lyrics; width: auto; min-width: 0; gap: 0; justify-content: flex-end; }
+    .p-right > svg, .p-right > input[type=range] { display: none; }
     .p-progress { grid-area: progress; gap: 6px; width: 100%; }
     .p-progress span { font-size: 10px; min-width: 26px; }
-
-    .icon-btn  { width: 30px; height: 30px; }
-    .play-btn  { width: 38px; height: 38px; }
+    .icon-btn { width: 30px; height: 30px; }
+    .play-btn { width: 38px; height: 38px; }
 
     .page { padding: 16px 14px 40px; }
     h1 { font-size: 24px; margin-bottom: 16px; }
     h2 { font-size: 18px; margin: 22px 0 12px; }
-
-    .grid {
-      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-      gap: 12px;
-    }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 12px; }
     .card-item { padding: 10px; }
     .card-title { font-size: 13px; }
-    .card-sub   { font-size: 11px; }
+    .card-sub { font-size: 11px; }
 
-    .track-row {
-      grid-template-columns: 22px 40px 1fr 40px 26px;
-      gap: 8px;
-      padding: 6px 8px;
-    }
-    .tr-album,
-    .tr-lyrics { display: none; }
-    .tr-menu   { opacity: 1; }
-    .tr-cover  { width: 40px; height: 40px; }
-    .tr-title  { font-size: 13px; }
+    .track-row { grid-template-columns: 22px 40px 1fr 40px 26px; gap: 8px; padding: 6px 8px; }
+    .tr-album, .tr-lyrics { display: none; }
+    .tr-menu { opacity: 1; }
+    .tr-cover { width: 40px; height: 40px; }
+    .tr-title { font-size: 13px; }
     .tr-artist { font-size: 11px; }
-    .tr-dur    { font-size: 12px; }
+    .tr-dur { font-size: 12px; }
 
-    .album-header {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 14px;
-      padding: 14px 0 22px;
-    }
+    .album-header { flex-direction: column; align-items: center; text-align: center; gap: 14px; padding: 14px 0 22px; }
     .album-header .big-cover { width: 160px; height: 160px; font-size: 52px; }
     .album-header h1 { font-size: 26px; }
 
@@ -417,15 +386,7 @@
     .dz-title { font-size: 15px; }
 
     input[type=text], input[type=search], select, textarea { font-size: 16px; }
-
-    .lyrics-panel {
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      border-left: none;
-      z-index: 120;
-    }
-
+    .lyrics-panel { top: 0; bottom: 0; width: 100%; border-left: none; z-index: 120; }
     .modal { max-width: none; margin: 10px; padding: 18px; }
     .toast { bottom: 130px; font-size: 13px; padding: 10px 18px; }
   }
@@ -436,43 +397,31 @@
     background: linear-gradient(180deg, #2a2a2a 0%, #121212 60%);
     display: flex; flex-direction: column;
     padding: 12px 20px calc(20px + env(safe-area-inset-bottom, 0px));
-    transform: translateY(100%);
-    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.4,0,.2,1);
     overflow: hidden;
   }
   .full-player.open { transform: none; }
-
   .fp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-shrink: 0; }
   .fp-header-title { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
-
   .fp-cover {
-    width: min(320px, 45vh); aspect-ratio: 1;
-    margin: 0 auto 20px; border-radius: 10px; overflow: hidden;
-    display: grid; place-items: center;
+    width: min(320px, 45vh); aspect-ratio: 1; margin: 0 auto 20px;
+    border-radius: 10px; overflow: hidden; display: grid; place-items: center;
     font-size: 60px; font-weight: 800; color: rgba(255,255,255,.9);
-    box-shadow: 0 12px 40px rgba(0,0,0,.6);
-    flex-shrink: 0;
+    box-shadow: 0 12px 40px rgba(0,0,0,.6); flex-shrink: 0;
   }
   .fp-cover img { width: 100%; height: 100%; object-fit: cover; }
-
   .fp-info { margin-bottom: 18px; flex-shrink: 0; }
   .fp-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .fp-artist { font-size: 15px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
   .fp-progress { margin-bottom: 6px; flex-shrink: 0; }
   .fp-progress .bar { width: 100%; height: 4px; }
   .fp-progress .bar:hover { height: 6px; }
   .fp-times { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
-
   .fp-controls { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 8px; padding: 0 4px; flex-shrink: 0; }
   .fp-ctrl { width: 44px; height: 44px; color: var(--muted); }
   .fp-ctrl:hover, .fp-ctrl.on { color: var(--accent); }
-  .fp-play {
-    width: 64px; height: 64px; border-radius: 50%; background: #fff; color: #000;
-    display: grid; place-items: center; transition: .15s;
-  }
+  .fp-play { width: 64px; height: 64px; border-radius: 50%; background: #fff; color: #000; display: grid; place-items: center; transition: .15s; }
   .fp-play:hover { transform: scale(1.05); }
-
   .fp-bottom { display: flex; gap: 12px; margin-top: auto; padding-top: 14px; flex-shrink: 0; }
   .fp-bottom-btn {
     flex: 1; padding: 12px; border-radius: 8px; background: #1e1e1e; color: #fff;
@@ -481,24 +430,17 @@
   }
   .fp-bottom-btn:hover { background: #2a2a2a; }
   .fp-bottom-btn.on { color: var(--accent); }
-
   .fp-timer-menu {
     position: absolute; bottom: 90px; right: 20px; left: 20px;
     background: #282828; border-radius: 10px; padding: 6px;
     box-shadow: 0 10px 30px rgba(0,0,0,.7);
-    display: none; flex-direction: column; max-height: 60vh; overflow-y: auto;
-    z-index: 5;
+    display: none; flex-direction: column; max-height: 60vh; overflow-y: auto; z-index: 5;
   }
   .fp-timer-menu.show { display: flex; }
-  .fp-timer-menu button {
-    padding: 12px 16px; text-align: left; font-size: 14px;
-    border-radius: 6px; color: #e0e0e0;
-  }
+  .fp-timer-menu button { padding: 12px 16px; text-align: left; font-size: 14px; border-radius: 6px; color: #e0e0e0; }
   .fp-timer-menu button:hover { background: #3e3e3e; color: #fff; }
 
-  @media (min-width: 769px) {
-    .full-player { display: none !important; }
-  }
+  @media (min-width: 769px) { .full-player { display: none !important; } }
 </style>
 </head>
 <body>
@@ -534,6 +476,12 @@
 
     <div class="side-title">Ваша медиатека</div>
     <div id="sideAlbums"></div>
+
+    <div class="side-title">
+      <span>Плейлисты</span>
+      <button id="newPlaylistBtn" title="Создать плейлист">+</button>
+    </div>
+    <div id="sidePlaylists"></div>
   </aside>
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -550,7 +498,6 @@
         <div class="p-artist" id="pArtist">—</div>
       </div>
     </div>
-
     <div class="p-center">
       <div class="p-controls">
         <button class="icon-btn" id="shuffleBtn" title="Перемешать">
@@ -575,7 +522,6 @@
         <span id="durTime">0:00</span>
       </div>
     </div>
-
     <div class="p-right">
       <button class="icon-btn" id="lyricsBtn" title="Текст песни">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
@@ -595,14 +541,11 @@
     <div class="fp-header-title">Сейчас играет</div>
     <div style="width:34px"></div>
   </div>
-
   <div class="fp-cover" id="fpCover"></div>
-
   <div class="fp-info">
     <div class="fp-title" id="fpTitle">Ничего не воспроизводится</div>
     <div class="fp-artist" id="fpArtist">—</div>
   </div>
-
   <div class="fp-progress">
     <div class="bar" id="fpSeekBar"><div class="bar-fill" id="fpSeekFill"></div></div>
     <div class="fp-times">
@@ -610,7 +553,6 @@
       <span id="fpDurTime">0:00</span>
     </div>
   </div>
-
   <div class="fp-controls">
     <button class="icon-btn fp-ctrl" id="fpShuffleBtn" title="Перемешать">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
@@ -626,7 +568,6 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
     </button>
   </div>
-
   <div class="fp-bottom">
     <button class="fp-bottom-btn" id="fpLyricsBtn">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
@@ -637,7 +578,6 @@
       <span id="fpSleepLabel">Таймер</span>
     </button>
   </div>
-
   <div class="fp-timer-menu" id="fpTimerMenu">
     <button data-min="5">5 минут</button>
     <button data-min="10">10 минут</button>
@@ -717,7 +657,7 @@ function toast(msg) {
    INDEXEDDB
    ===================================================================== */
 const DB_NAME = 'spotify-clone-db';
-const DB_VER  = 1;
+const DB_VER  = 2;
 let db = null;
 
 function openDB() {
@@ -731,6 +671,9 @@ function openDB() {
       }
       if (!d.objectStoreNames.contains('albums')) {
         d.createObjectStore('albums', { keyPath: 'id' });
+      }
+      if (!d.objectStoreNames.contains('playlists')) {
+        d.createObjectStore('playlists', { keyPath: 'id' });
       }
     };
     req.onsuccess = e => { db = e.target.result; res(db); };
@@ -765,6 +708,7 @@ function dbDelete(store, key) {
    ===================================================================== */
 let albums = [];
 let tracks = [];
+let playlists = [];
 let pendingFiles = [];
 let listRegistry = {};
 const urlCache = new Map();
@@ -793,16 +737,30 @@ function trackURL(track) {
   return urlCache.get(track.id);
 }
 function albumById(id) { return albums.find(a => a.id === id) || null; }
+function playlistById(id) { return playlists.find(p => p.id === id) || null; }
 function tracksOfAlbum(id) {
   return tracks.filter(t => t.albumId === id)
                .sort((a, b) => (a.order || 0) - (b.order || 0) || a.addedAt - b.addedAt);
+}
+function playlistTracks(pl) {
+  if (!pl) return [];
+  return pl.trackIds.map(id => tracks.find(t => t.id === id)).filter(Boolean);
+}
+function playlistCover(pl) {
+  const list = playlistTracks(pl);
+  const first = list[0];
+  const al = first ? albumById(first.albumId) : null;
+  return coverURL(al);
 }
 
 async function reloadData() {
   albums = await dbGetAll('albums');
   tracks = await dbGetAll('tracks');
+  playlists = await dbGetAll('playlists');
   albums.sort((a, b) => b.createdAt - a.createdAt);
+  playlists.sort((a, b) => b.createdAt - a.createdAt);
   renderSidebarAlbums();
+  renderSidebarPlaylists();
 }
 
 /* =====================================================================
@@ -823,6 +781,7 @@ function renderMain() {
   if (v.name === 'home')        renderHome();
   else if (v.name === 'upload') renderUpload();
   else if (v.name === 'album')  renderAlbum(v.param);
+  else if (v.name === 'playlist') renderPlaylist(v.param);
   else if (v.name === 'search') renderSearch();
 }
 
@@ -849,12 +808,36 @@ function renderSidebarAlbums() {
   }).join('');
 }
 
+function renderSidebarPlaylists() {
+  const el = $('#sidePlaylists');
+  if (!el) return;
+  if (!playlists.length) {
+    el.innerHTML = `<div style="padding:10px 12px;font-size:12px;color:#666;line-height:1.6">
+      Пока нет плейлистов</div>`;
+    return;
+  }
+  el.innerHTML = playlists.map(pl => {
+    const url = playlistCover(pl);
+    const cover = url
+      ? `<div class="mini-cover pl"><img src="${url}" alt=""></div>`
+      : `<div class="mini-cover pl" style="${coverStyle(pl.title)}">♪</div>`;
+    return `<button class="side-album" data-playlist="${pl.id}">${cover}
+      <div style="min-width:0">
+        <div style="color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(pl.title)}</div>
+        <div style="font-size:11px">Плейлист · ${pl.trackIds.length}</div>
+      </div></button>`;
+  }).join('');
+}
+
 /* =====================================================================
    СПИСОК ТРЕКОВ
    ===================================================================== */
 function trackRowsHTML(list, listName, opts = {}) {
   listRegistry[listName] = list;
-  if (!list.length) return `<div class="empty">Здесь пока нет треков</div>`;
+  if (!list.length) {
+    const emptyMsg = opts.emptyText || 'Здесь пока нет треков';
+    return `<div class="empty">${emptyMsg}</div>`;
+  }
   return `<div class="track-list">` + list.map((t, i) => {
     const al = albumById(t.albumId);
     const url = coverURL(al);
@@ -904,6 +887,25 @@ function renderHome() {
         </div>
         <div class="card-title">${esc(a.title)}</div>
         <div class="card-sub">${esc(a.artist || 'Без исполнителя')} · ${cnt} ${plural(cnt, 'трек', 'трека', 'треков')}</div>
+      </div>`;
+    }).join('');
+    html += `</div>`;
+  }
+
+  if (playlists.length) {
+    html += `<h2>Ваши плейлисты</h2><div class="grid">`;
+    html += playlists.map(pl => {
+      const url = playlistCover(pl);
+      const cnt = playlistTracks(pl).length;
+      return `<div class="card-item" data-playlist="${pl.id}">
+        <div class="card-cover pl" style="${url ? '' : coverStyle(pl.title)}">
+          ${url ? `<img src="${url}" alt="">` : `<span>♪</span>`}
+          <button class="card-play" data-playplaylist="${pl.id}">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <div class="card-title">${esc(pl.title)}</div>
+        <div class="card-sub">Плейлист · ${cnt} ${plural(cnt, 'трек', 'трека', 'треков')}</div>
       </div>`;
     }).join('');
     html += `</div>`;
@@ -985,13 +987,154 @@ function renderAlbum(id) {
 }
 
 /* =====================================================================
+   ПЛЕЙЛИСТ
+   ===================================================================== */
+function renderPlaylist(id) {
+  const pl = playlistById(id);
+  const main = $('#main');
+  if (!pl) { navigate('home'); return; }
+
+  const list = playlistTracks(pl);
+  const totalSec = list.reduce((s, t) => s + (t.duration || 0), 0);
+  const url = playlistCover(pl);
+
+  main.innerHTML = `<div class="page">
+    <div class="album-header">
+      ${url
+        ? `<div class="big-cover pl"><img src="${url}" alt=""></div>`
+        : `<div class="big-cover pl" style="${coverStyle(pl.title)}">♪</div>`}
+      <div style="min-width:0">
+        <div class="eyebrow">Плейлист</div>
+        <h1>${esc(pl.title)}</h1>
+        ${pl.description ? `<div class="pl-desc">${esc(pl.description)}</div>` : ''}
+        <div class="muted">${list.length} ${plural(list.length,'трек','трека','треков')} · ${fmt(totalSec)}</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap">
+      <button class="btn accent" id="playPlaylistBtn" ${list.length ? '' : 'disabled'}>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Слушать
+      </button>
+      <button class="btn ghost small" id="editPlaylistBtn">Редактировать</button>
+      <button class="btn ghost small" id="deletePlaylistBtn">Удалить плейлист</button>
+    </div>
+
+    ${trackRowsHTML(list, 'playlist:' + pl.id, {
+      showAlbum: true,
+      emptyText: 'Плейлист пуст. Добавьте треки через меню ⋯ у любого трека → «В плейлист...»'
+    })}
+  </div>`;
+
+  $('#playPlaylistBtn')?.addEventListener('click', () => playFromList(list, 0));
+  $('#editPlaylistBtn')?.addEventListener('click', () => openEditPlaylistModal(pl));
+  $('#deletePlaylistBtn')?.addEventListener('click', async () => {
+    if (!confirm(`Удалить плейлист «${pl.title}»? Треки останутся в библиотеке.`)) return;
+    await dbDelete('playlists', pl.id);
+    await reloadData();
+    toast('Плейлист удалён');
+    navigate('home');
+  });
+}
+
+function openCreatePlaylistModal(prefillTrackId = null) {
+  openModal('Новый плейлист', `
+    <input type="text" id="plTitle" placeholder="Название плейлиста" style="width:100%;margin-bottom:10px">
+    <textarea id="plDesc" placeholder="Описание (необязательно)" style="min-height:70px"></textarea>
+  `, async () => {
+    const title = $('#plTitle').value.trim();
+    if (!title) { toast('Введите название'); return; }
+    const pl = {
+      id: uid(),
+      title,
+      description: $('#plDesc').value.trim(),
+      trackIds: prefillTrackId ? [prefillTrackId] : [],
+      createdAt: Date.now()
+    };
+    await dbPut('playlists', pl);
+    await reloadData();
+    if (currentView.name === 'playlist') renderMain();
+    navigate('playlist', pl.id);
+    toast('Плейлист создан');
+  });
+}
+
+function openEditPlaylistModal(pl) {
+  openModal('Редактировать плейлист', `
+    <input type="text" id="plTitle" value="${esc(pl.title)}" placeholder="Название" style="width:100%;margin-bottom:10px">
+    <textarea id="plDesc" placeholder="Описание" style="min-height:70px">${esc(pl.description || '')}</textarea>
+  `, async () => {
+    const title = $('#plTitle').value.trim();
+    if (!title) { toast('Введите название'); return; }
+    pl.title = title;
+    pl.description = $('#plDesc').value.trim();
+    await dbPut('playlists', pl);
+    await reloadData();
+    renderMain();
+    toast('Сохранено');
+  });
+}
+
+function openAddToPlaylistModal(trackId) {
+  const track = tracks.find(t => t.id === trackId);
+  if (!track) return;
+
+  let html = '<div class="modal-list">';
+  if (playlists.length) {
+    html += playlists.map(p => {
+      const already = p.trackIds.includes(trackId);
+      const url = playlistCover(p);
+      const cover = url
+        ? `<div class="mli-cover"><img src="${url}" alt=""></div>`
+        : `<div class="mli-cover" style="${coverStyle(p.title)}">♪</div>`;
+      return `<button class="modal-list-item" data-pl="${p.id}" ${already ? 'disabled' : ''}>
+        ${cover}
+        <div class="mli-info">
+          <div class="mli-title">${esc(p.title)}</div>
+          <div class="mli-sub">${p.trackIds.length} ${plural(p.trackIds.length,'трек','трека','треков')}${already ? ' · уже добавлен' : ''}</div>
+        </div>
+      </button>`;
+    }).join('');
+  } else {
+    html += '<div class="muted" style="padding:20px;text-align:center">Нет плейлистов. Создайте первый!</div>';
+  }
+  html += '</div>';
+  html += '<button class="btn accent" id="mAddNewPl" style="width:100%;margin-top:14px;justify-content:center">+ Новый плейлист</button>';
+
+  $('#modalTitle').textContent = 'Добавить в плейлист';
+  $('#modalBody').innerHTML = html;
+  $('#modalBg').classList.add('show');
+  $('#modalOk').style.display = 'none';
+  $('#modalCancel').textContent = 'Закрыть';
+  modalOkHandler = null;
+
+  $('#mAddNewPl').onclick = () => {
+    closeModal();
+    openCreatePlaylistModal(trackId);
+  };
+
+  $('#modalBody').onclick = async e => {
+    const item = e.target.closest('[data-pl]');
+    if (!item || item.disabled) return;
+    const pl = playlistById(item.dataset.pl);
+    if (!pl || pl.trackIds.includes(trackId)) return;
+    pl.trackIds.push(trackId);
+    await dbPut('playlists', pl);
+    await reloadData();
+    toast(`Добавлено в «${pl.title}»`);
+    closeModal();
+    if (currentView.name === 'playlist') renderMain();
+  };
+}
+
+/* =====================================================================
    ПОИСК
    ===================================================================== */
 function renderSearch() {
   const main = $('#main');
   main.innerHTML = `<div class="page">
     <h1>Поиск</h1>
-    <input type="search" id="searchInput" placeholder="Треки, альбомы, исполнители..." style="width:100%;max-width:520px;margin-bottom:26px">
+    <input type="search" id="searchInput" placeholder="Треки, альбомы, плейлисты..." style="width:100%;max-width:520px;margin-bottom:26px">
     <div id="searchResults"></div>
   </div>`;
 
@@ -1006,6 +1149,8 @@ function renderSearch() {
       t.title.toLowerCase().includes(q) || (t.artist || '').toLowerCase().includes(q));
     const foundAlbums = albums.filter(a =>
       a.title.toLowerCase().includes(q) || (a.artist || '').toLowerCase().includes(q));
+    const foundPlaylists = playlists.filter(p =>
+      p.title.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q));
 
     let html = '';
     if (foundAlbums.length) {
@@ -1017,6 +1162,18 @@ function renderSearch() {
           </div>
           <div class="card-title">${esc(a.title)}</div>
           <div class="card-sub">${esc(a.artist || '')}</div>
+        </div>`;
+      }).join('') + `</div>`;
+    }
+    if (foundPlaylists.length) {
+      html += `<h2>Плейлисты</h2><div class="grid">` + foundPlaylists.map(pl => {
+        const url = playlistCover(pl);
+        return `<div class="card-item" data-playlist="${pl.id}">
+          <div class="card-cover pl" style="${url ? '' : coverStyle(pl.title)}">
+            ${url ? `<img src="${url}">` : `<span>♪</span>`}
+          </div>
+          <div class="card-title">${esc(pl.title)}</div>
+          <div class="card-sub">${pl.trackIds.length} ${plural(pl.trackIds.length,'трек','трека','треков')}</div>
         </div>`;
       }).join('') + `</div>`;
     }
@@ -1044,7 +1201,6 @@ function renderUpload() {
   main.innerHTML = `<div class="page">
     <h1>Загрузить музыку</h1>
     <div class="card-box">
-
       <div class="field-row">
         <label>Альбом</label>
         <select id="albumSelect" style="min-width:0;width:100%">
@@ -1095,7 +1251,6 @@ function renderUpload() {
   const fi = $('#fileInput');
   dz.addEventListener('click', () => fi.click());
   fi.addEventListener('change', e => { addFiles(e.target.files); fi.value = ''; });
-
   ['dragenter', 'dragover'].forEach(ev =>
     dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('drag'); }));
   ['dragleave', 'drop'].forEach(ev =>
@@ -1111,14 +1266,10 @@ function renderUpload() {
   });
   $('#pendingList').addEventListener('click', e => {
     const rm = e.target.closest('[data-remove]');
-    if (rm) {
-      pendingFiles.splice(+rm.dataset.remove, 1);
-      renderPending();
-    }
+    if (rm) { pendingFiles.splice(+rm.dataset.remove, 1); renderPending(); }
   });
 
   $('#uploadBtn').addEventListener('click', doUpload);
-
   renderPending();
 }
 
@@ -1415,11 +1566,7 @@ audio.addEventListener('error', () => {
 $('#playBtn').addEventListener('click', togglePlay);
 $('#nextBtn').addEventListener('click', () => nextTrack(true));
 $('#prevBtn').addEventListener('click', prevTrack);
-
-$('#shuffleBtn').addEventListener('click', () => {
-  state.shuffle = !state.shuffle;
-  updatePlayerUI();
-});
+$('#shuffleBtn').addEventListener('click', () => { state.shuffle = !state.shuffle; updatePlayerUI(); });
 $('#repeatBtn').addEventListener('click', () => {
   state.repeat = state.repeat === 'off' ? 'all' : state.repeat === 'all' ? 'one' : 'off';
   updatePlayerUI();
@@ -1429,9 +1576,7 @@ $('#seekBar').addEventListener('click', e => {
   const rect = e.currentTarget.getBoundingClientRect();
   audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
 });
-$('#volume').addEventListener('input', e => {
-  audio.volume = +e.target.value;
-});
+$('#volume').addEventListener('input', e => { audio.volume = +e.target.value; });
 
 $('#lyricsBtn').addEventListener('click', () => {
   $('#lyricsPanel').classList.toggle('open');
@@ -1450,7 +1595,11 @@ document.addEventListener('click', e => {
   if (nav) { navigate(nav.dataset.view); return; }
 
   const sideAl = e.target.closest('.side-album');
-  if (sideAl) { navigate('album', sideAl.dataset.album); return; }
+  if (sideAl) {
+    if (sideAl.dataset.album) navigate('album', sideAl.dataset.album);
+    else if (sideAl.dataset.playlist) navigate('playlist', sideAl.dataset.playlist);
+    return;
+  }
 
   const playAlbum = e.target.closest('[data-playalbum]');
   if (playAlbum) {
@@ -1461,8 +1610,21 @@ document.addEventListener('click', e => {
     return;
   }
 
+  const playPl = e.target.closest('[data-playplaylist]');
+  if (playPl) {
+    e.stopPropagation();
+    const pl = playlistById(playPl.dataset.playplaylist);
+    const list = playlistTracks(pl);
+    if (list.length) playFromList(list, 0);
+    else toast('Плейлист пуст');
+    return;
+  }
+
   const card = e.target.closest('.card-item[data-album]');
   if (card) { navigate('album', card.dataset.album); return; }
+
+  const cardPl = e.target.closest('.card-item[data-playlist]');
+  if (cardPl) { navigate('playlist', cardPl.dataset.playlist); return; }
 
   const menuBtn = e.target.closest('[data-menu]');
   if (menuBtn) {
@@ -1470,7 +1632,13 @@ document.addEventListener('click', e => {
     const id = menuBtn.dataset.menu;
     const track = tracks.find(t => t.id === id);
     if (!track) return;
-    openTrackMenu(menuBtn.getBoundingClientRect(), track);
+    // если открыто внутри плейлиста — передаём playlistId
+    let playlistId = null;
+    if (currentView.name === 'playlist' && currentView.param) {
+      const pl = playlistById(currentView.param);
+      if (pl && pl.trackIds.includes(track.id)) playlistId = pl.id;
+    }
+    openTrackMenu(menuBtn.getBoundingClientRect(), track, playlistId);
     return;
   }
 
@@ -1495,16 +1663,22 @@ function closeCtxMenu() {
   document.querySelectorAll('.ctx-menu').forEach(m => m.remove());
 }
 
-function openTrackMenu(rect, track) {
+function openTrackMenu(rect, track, playlistId = null) {
   closeCtxMenu();
   const menu = document.createElement('div');
   menu.className = 'ctx-menu';
-  menu.innerHTML = `
+
+  let html = `
     <button data-act="play">▶ Воспроизвести</button>
+    <button data-act="addto">➕ В плейлист...</button>
     <button data-act="lyrics">📝 ${track.lyrics ? 'Редактировать текст' : 'Добавить текст'}</button>
     <button data-act="rename">✏️ Переименовать</button>
-    <button data-act="delete" class="danger">🗑 Удалить трек</button>
   `;
+  if (playlistId) {
+    html += `<button data-act="rmplaylist" class="danger">✕ Убрать из плейлиста</button>`;
+  }
+  html += `<button data-act="delete" class="danger">🗑 Удалить трек</button>`;
+  menu.innerHTML = html;
   document.body.appendChild(menu);
 
   const mw = menu.offsetWidth, mh = menu.offsetHeight;
@@ -1521,6 +1695,18 @@ function openTrackMenu(rect, track) {
 
     if (act === 'play') {
       playFromList([track], 0);
+    }
+    else if (act === 'addto') {
+      openAddToPlaylistModal(track.id);
+    }
+    else if (act === 'rmplaylist' && playlistId) {
+      const pl = playlistById(playlistId);
+      if (!pl) return;
+      pl.trackIds = pl.trackIds.filter(id => id !== track.id);
+      await dbPut('playlists', pl);
+      await reloadData();
+      renderMain();
+      toast('Убрано из плейлиста');
     }
     else if (act === 'lyrics') {
       openLyricsModal(track);
@@ -1546,6 +1732,13 @@ function openTrackMenu(rect, track) {
       if (!confirm(`Удалить трек «${track.title}»?`)) return;
       await dbDelete('tracks', track.id);
       urlCache.delete(track.id);
+      // убираем из всех плейлистов
+      for (const pl of playlists) {
+        if (pl.trackIds.includes(track.id)) {
+          pl.trackIds = pl.trackIds.filter(id => id !== track.id);
+          await dbPut('playlists', pl);
+        }
+      }
       await reloadData();
       if (state.currentTrack && state.currentTrack.id === track.id) {
         audio.pause(); audio.removeAttribute('src'); audio.load();
@@ -1568,10 +1761,15 @@ function openModal(title, bodyHTML, onOk) {
   $('#modalTitle').textContent = title;
   $('#modalBody').innerHTML = bodyHTML;
   $('#modalBg').classList.add('show');
+  $('#modalOk').style.display = '';
+  $('#modalCancel').textContent = 'Отмена';
   modalOkHandler = onOk;
 }
 function closeModal() {
   $('#modalBg').classList.remove('show');
+  $('#modalOk').style.display = '';
+  $('#modalCancel').textContent = 'Отмена';
+  $('#modalBody').onclick = null;
   modalOkHandler = null;
 }
 $('#modalCancel').addEventListener('click', closeModal);
@@ -1611,19 +1809,18 @@ function openSidebar() {
   $('#sidebar')?.classList.add('open');
   $('#sidebarOverlay')?.classList.add('show');
 }
-
 $('#menuBtn')?.addEventListener('click', openSidebar);
 $('#sidebarOverlay')?.addEventListener('click', closeSidebar);
 $('#mobileUploadBtn')?.addEventListener('click', () => { navigate('upload'); });
-
 document.querySelector('.sidebar')?.addEventListener('click', e => {
-  if (window.innerWidth <= 768 && e.target.closest('button')) {
-    setTimeout(closeSidebar, 120);
-  }
+  if (window.innerWidth <= 768 && e.target.closest('button')) setTimeout(closeSidebar, 120);
 });
+window.addEventListener('resize', () => { if (window.innerWidth > 768) closeSidebar(); });
 
-window.addEventListener('resize', () => {
-  if (window.innerWidth > 768) closeSidebar();
+/* Кнопка создания плейлиста в сайдбаре */
+$('#newPlaylistBtn')?.addEventListener('click', e => {
+  e.stopPropagation();
+  openCreatePlaylistModal();
 });
 
 /* =====================================================================
@@ -1655,7 +1852,6 @@ function updateSleepButton() {
   const s = Math.floor((left % 60000) / 1000);
   label.textContent = `${m}:${String(s).padStart(2, '0')}`;
 }
-
 function clearSleepTimer() {
   if (sleepTimer) {
     clearTimeout(sleepTimer.timeoutId);
@@ -1664,7 +1860,6 @@ function clearSleepTimer() {
   }
   updateSleepButton();
 }
-
 function setSleepTimer(val) {
   clearSleepTimer();
   if (!val) return;
@@ -1701,28 +1896,19 @@ function syncFullPlayerUI() {
   if (t) {
     const al = albumById(t.albumId);
     const url = coverURL(al);
-    if (url) {
-      cover.style.cssText = '';
-      cover.innerHTML = `<img src="${url}" alt="">`;
-    } else {
-      cover.style.cssText = coverStyle(t.title);
-      cover.innerHTML = `<span>${esc(initials(t.title))}</span>`;
-    }
+    if (url) { cover.style.cssText = ''; cover.innerHTML = `<img src="${url}" alt="">`; }
+    else { cover.style.cssText = coverStyle(t.title); cover.innerHTML = `<span>${esc(initials(t.title))}</span>`; }
     title.textContent = t.title;
     artist.textContent = t.artist || 'Неизвестный исполнитель';
     durTime.textContent = fmt(audio.duration || t.duration);
   } else {
-    cover.style.cssText = '';
-    cover.innerHTML = '';
-    title.textContent = 'Ничего не воспроизводится';
-    artist.textContent = '—';
+    cover.style.cssText = ''; cover.innerHTML = '';
+    title.textContent = 'Ничего не воспроизводится'; artist.textContent = '—';
     durTime.textContent = '0:00';
   }
-
   playBtn.innerHTML = state.isPlaying
     ? `<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>`
     : `<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-
   shuffleBtn.classList.toggle('on', state.shuffle);
   repeatBtn.classList.toggle('on', state.repeat !== 'off');
   updateSleepButton();
@@ -1737,7 +1923,6 @@ function closeFullPlayer() {
   document.getElementById('fullPlayer').classList.remove('open');
 }
 
-/* Тап по нижней строке плеера → открыть full player */
 document.querySelector('.player')?.addEventListener('click', e => {
   if (window.innerWidth > 768) return;
   if (e.target.closest('button')) return;
@@ -1745,14 +1930,12 @@ document.querySelector('.player')?.addEventListener('click', e => {
   openFullPlayer();
 });
 
-/* Кнопки full player */
 document.getElementById('fpClose')?.addEventListener('click', closeFullPlayer);
 document.getElementById('fpPlayBtn')?.addEventListener('click', togglePlay);
 document.getElementById('fpNextBtn')?.addEventListener('click', () => nextTrack(true));
 document.getElementById('fpPrevBtn')?.addEventListener('click', prevTrack);
 document.getElementById('fpShuffleBtn')?.addEventListener('click', () => {
-  state.shuffle = !state.shuffle;
-  updatePlayerUI();
+  state.shuffle = !state.shuffle; updatePlayerUI();
 });
 document.getElementById('fpRepeatBtn')?.addEventListener('click', () => {
   state.repeat = state.repeat === 'off' ? 'all' : state.repeat === 'all' ? 'one' : 'off';
@@ -1763,7 +1946,6 @@ document.getElementById('fpLyricsBtn')?.addEventListener('click', () => {
   document.getElementById('lyricsBtn').classList.add('on');
 });
 
-/* Seek в full player (с перетаскиванием пальца) */
 document.getElementById('fpSeekBar')?.addEventListener('pointerdown', e => {
   if (!audio.duration) return;
   const bar = e.currentTarget;
@@ -1786,7 +1968,6 @@ document.getElementById('fpSeekBar')?.addEventListener('pointerdown', e => {
   document.addEventListener('pointerup', onUp);
 });
 
-/* Меню таймера */
 document.getElementById('fpSleepBtn')?.addEventListener('click', e => {
   e.stopPropagation();
   document.getElementById('fpTimerMenu').classList.toggle('show');
@@ -1805,7 +1986,6 @@ document.addEventListener('click', e => {
   }
 });
 
-/* Обновление прогресса в full player */
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
   const pct = (audio.currentTime / audio.duration * 100) + '%';
@@ -1817,7 +1997,6 @@ audio.addEventListener('timeupdate', () => {
   if (dt) dt.textContent = fmt(audio.duration);
 });
 
-/* Таймер «в конце трека» — перехватываем автоматическое переключение */
 const _origNextTrack = nextTrack;
 nextTrack = function (user = true) {
   if (sleepTimer && sleepTimer.type === 'track' && !user) {
@@ -1829,7 +2008,6 @@ nextTrack = function (user = true) {
   return _origNextTrack(user);
 };
 
-/* Автосинхронизация full player при каждом updatePlayerUI */
 const _origUpdatePlayerUI = updatePlayerUI;
 updatePlayerUI = function () {
   _origUpdatePlayerUI.apply(this, arguments);
