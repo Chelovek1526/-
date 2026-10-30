@@ -80,13 +80,13 @@ h2{font-size:21px;margin:28px 0 16px;letter-spacing:-.3px}
 .card-box{background:var(--panel);border-radius:12px;padding:22px;max-width:820px}
 .field-row{display:flex;gap:14px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
 .field-row label{font-size:13px;color:var(--muted);font-weight:600;min-width:70px}
-input[type=text],input[type=search],select,textarea{background:#2a2a2a;border:1px solid #3a3a3a;color:#fff;border-radius:6px;padding:10px 12px;font-size:14px;outline:none;transition:.15s}
-input[type=text]:focus,select:focus,textarea:focus{border-color:var(--accent);background:#333}
+input[type=text],input[type=search],input[type=number],select,textarea{background:#2a2a2a;border:1px solid #3a3a3a;color:#fff;border-radius:6px;padding:10px 12px;font-size:14px;outline:none;transition:.15s}
+input[type=text]:focus,select:focus,textarea:focus,input[type=number]:focus{border-color:var(--accent);background:#333}
 select{cursor:pointer}
 textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5;font-size:13px}
-.new-album-form{display:none;gap:10px;flex-direction:column;margin-bottom:16px;padding:16px;background:#202020;border-radius:8px}
-.new-album-form.show{display:flex}
-.new-album-form input[type=text]{width:100%}
+.form-block{display:none;gap:10px;flex-direction:column;margin-bottom:16px;padding:16px;background:#202020;border-radius:8px}
+.form-block.show{display:flex}
+.form-block input[type=text],.form-block input[type=number]{width:100%}
 .file-label{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:#2a2a2a;padding:9px 14px;border-radius:6px;cursor:pointer;border:1px solid #3a3a3a}
 .file-label:hover{border-color:var(--accent);color:#fff}
 .dropzone{border:2px dashed #3d3d3d;border-radius:12px;padding:46px 20px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:18px}
@@ -125,15 +125,39 @@ details[open] summary{color:var(--accent)}
 .p-right{display:flex;align-items:center;gap:10px;width:30%;min-width:160px;justify-content:flex-end}
 input[type=range]{-webkit-appearance:none;appearance:none;width:90px;height:4px;border-radius:2px;background:#4d4d4d;outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#fff;cursor:pointer}
-.lyrics-panel{position:fixed;top:0;right:0;bottom:92px;width:340px;background:#0b0b0b;border-left:1px solid #222;z-index:60;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
-.lyrics-panel.open{transform:none}
-.lyrics-head{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid #1e1e1e}
-.lyrics-head h3{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px}
+.radio-badge{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent);color:#000;font-weight:700;letter-spacing:.5px;margin-left:6px}
+
+/* Side panels */
+.side-panel{position:fixed;top:0;right:0;bottom:92px;width:360px;background:#0b0b0b;border-left:1px solid #222;z-index:60;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.side-panel.open{transform:none}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid #1e1e1e;gap:10px}
+.panel-head h3{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.panel-body{padding:14px 14px;overflow-y:auto;flex:1}
 .lyrics-body{padding:22px 20px;overflow-y:auto;flex:1;white-space:pre-wrap;font-size:14px;line-height:1.85;color:#d0d0d0}
 .lyrics-body.empty-text{color:#666;font-style:italic;white-space:normal;text-align:center;padding-top:60px}
 .lyric-line{padding:8px 12px;border-radius:4px;transition:.2s;cursor:pointer;line-height:1.6}
 .lyric-line:hover{background:#1e1e1e}
 .lyric-line.active{color:var(--accent);font-weight:700;font-size:16px;background:rgba(29,185,84,.08)}
+
+/* Queue */
+.queue-section-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);padding:14px 4px 8px}
+.queue-item{display:grid;grid-template-columns:24px 40px 1fr 28px;align-items:center;gap:10px;padding:8px 8px;border-radius:6px;margin-bottom:4px;background:#141414;transition:background .15s}
+.queue-item:hover{background:#1e1e1e}
+.queue-item.current{background:rgba(29,185,84,.12);cursor:default}
+.queue-item.current .queue-title{color:var(--accent);font-weight:600}
+.queue-item.dragging{opacity:.9;box-shadow:0 8px 24px rgba(0,0,0,.7);background:#2a2a2a;cursor:grabbing}
+.queue-drag-handle{color:var(--muted);cursor:grab;font-size:16px;text-align:center;touch-action:none;user-select:none;padding:4px 0}
+.queue-drag-handle:active{cursor:grabbing}
+.queue-cover{width:40px;height:40px;border-radius:4px;overflow:hidden;display:grid;place-items:center;font-size:13px;font-weight:700}
+.queue-cover img{width:100%;height:100%;object-fit:cover}
+.queue-info{min-width:0;cursor:pointer}
+.queue-title{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue-artist{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue-remove{color:var(--muted);width:26px;height:26px;border-radius:50%;font-size:14px}
+.queue-remove:hover{background:#3a3a3a;color:#fff}
+.queue-empty{text-align:center;color:var(--muted);font-size:13px;padding:30px 10px}
+
+/* Modal / ctx */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-bg.show{display:flex}
 .modal{background:#1e1e1e;border-radius:12px;padding:24px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.8);max-height:85vh;display:flex;flex-direction:column}
@@ -162,6 +186,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 .import-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:400;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;color:#fff;font-size:16px;text-align:center;padding:20px}
 .import-overlay .spinner{width:48px;height:48px;border:4px solid #333;border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Mobile */
 @media (max-width:768px){
   .app{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;height:100vh;height:100dvh}
   .mobile-header{display:flex;grid-row:1;grid-column:1;align-items:center;justify-content:space-between;padding:10px 14px;background:#000;border-bottom:1px solid #1a1a1a;z-index:50}
@@ -172,7 +198,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
   .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:85;display:none}
   .sidebar-overlay.show{display:block}
   .main{grid-row:2;grid-column:1;background:linear-gradient(180deg,#1c1c1c 0%,#121212 220px)}
-  .player{grid-row:3;grid-column:1;display:grid;grid-template-columns:44px minmax(0,1fr) auto auto;grid-template-areas:"cover info controls lyrics" "progress progress progress progress";gap:6px 8px;padding:8px 12px 10px;height:auto;align-items:center}
+  .player{grid-row:3;grid-column:1;display:grid;grid-template-columns:44px minmax(0,1fr) auto auto auto;grid-template-areas:"cover info controls queue lyrics" "progress progress progress progress progress";gap:6px 6px;padding:8px 10px 10px;height:auto;align-items:center}
   .p-left,.p-center{display:contents}
   .p-cover{grid-area:cover;width:44px;height:44px;font-size:13px}
   .p-cover img{border-radius:4px}
@@ -187,6 +213,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
   .p-progress span{font-size:10px;min-width:26px}
   .icon-btn{width:30px;height:30px}
   .play-btn{width:38px;height:38px}
+  #queueBtn{grid-area:queue}
   .page{padding:16px 14px 40px}
   h1{font-size:24px;margin-bottom:16px}
   h2{font-size:18px;margin:22px 0 12px}
@@ -209,11 +236,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
   .field-row label{min-width:0}
   .pi-fields{grid-template-columns:1fr}
   .dropzone{padding:30px 16px}
-  input[type=text],input[type=search],select,textarea{font-size:16px}
-  .lyrics-panel{top:0;bottom:0;width:100%;border-left:none;z-index:120}
+  input[type=text],input[type=search],input[type=number],select,textarea{font-size:16px}
+  .side-panel{top:0;bottom:0;width:100%;border-left:none;z-index:120}
   .modal{max-width:none;margin:10px;padding:18px}
   .toast{bottom:130px;font-size:13px;padding:10px 18px}
 }
+@media (min-width:769px){
+  #queueBtn{display:grid}
+}
+
+/* Full player */
 .full-player{position:fixed;inset:0;z-index:95;background:linear-gradient(180deg,#2a2a2a 0%,#121212 60%);display:flex;flex-direction:column;padding:12px 20px calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .full-player.open{transform:none}
 .fp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0}
@@ -236,6 +268,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 .fp-timer-menu.show{display:flex}
 .fp-timer-menu button{padding:12px 16px;text-align:left;font-size:14px;border-radius:6px;color:#e0e0e0}
 @media (min-width:769px){.full-player{display:none!important}}
+
+/* Tap-to-sync */
 .tap-sync-overlay{position:fixed;inset:0;z-index:150;background:#121212;display:flex;flex-direction:column;padding:12px 16px calc(16px + env(safe-area-inset-bottom,0px))}
 .ts-header{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-shrink:0}
 .ts-title{font-size:15px;font-weight:700;flex:1}
@@ -301,13 +335,45 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
       </div>
     </div>
     <div class="p-right">
-      <button class="icon-btn" id="lyricsBtn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></button>
+      <button class="icon-btn" id="queueBtn" title="Очередь">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 6h13v2H3zM3 11h13v2H3zM3 16h9v2H3zm15-7v9.18A3 3 0 1019 21a3 3 0 001-2.18V10h2V8h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="lyricsBtn" title="Текст песни">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+      </button>
       <svg viewBox="0 0 24 24" width="18" height="18" fill="#b3b3b3"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
       <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
     </div>
   </div>
 </div>
 
+<!-- Queue panel -->
+<div class="side-panel" id="queuePanel">
+  <div class="panel-head">
+    <h3 id="queueTitle">Очередь</h3>
+    <div style="display:flex;gap:4px">
+      <button class="icon-btn" id="queueClearBtn" title="Очистить"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+      <button class="icon-btn" id="queueClose">✕</button>
+    </div>
+  </div>
+  <div class="panel-body" id="queueListBody"></div>
+</div>
+
+<!-- Lyrics panel -->
+<div class="side-panel" id="lyricsPanel">
+  <div class="panel-head">
+    <h3 id="lyricsTitle">Текст песни</h3>
+    <div style="display:flex;gap:4px">
+      <button class="icon-btn" id="lyricsCopy" title="Копировать LRC">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+      </button>
+      <button class="icon-btn" id="lyricsClose">✕</button>
+    </div>
+  </div>
+  <div class="lyrics-body" id="lyricsBody"></div>
+</div>
+
+<!-- Full player -->
 <div class="full-player" id="fullPlayer">
   <div class="fp-header">
     <button class="icon-btn" id="fpClose"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
@@ -331,7 +397,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
     <button class="icon-btn fp-ctrl" id="fpRepeatBtn"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
   </div>
   <div class="fp-bottom">
-    <button class="fp-bottom-btn" id="fpLyricsBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>Текст песни</button>
+    <button class="fp-bottom-btn" id="fpQueueBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 6h13v2H3zM3 11h13v2H3zM3 16h9v2H3zm15-7v9.18A3 3 0 1019 21a3 3 0 001-2.18V10h2V8h-4z"/></svg>Очередь</button>
+    <button class="fp-bottom-btn" id="fpLyricsBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>Текст</button>
     <button class="fp-bottom-btn" id="fpSleepBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span id="fpSleepLabel">Таймер</span></button>
   </div>
   <div class="fp-timer-menu" id="fpTimerMenu">
@@ -344,19 +411,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
     <button data-min="track">В конце трека</button>
     <button data-min="off">Выключить таймер</button>
   </div>
-</div>
-
-<div class="lyrics-panel" id="lyricsPanel">
-  <div class="lyrics-head">
-    <h3 id="lyricsTitle">Текст песни</h3>
-    <div style="display:flex;gap:4px">
-      <button class="icon-btn" id="lyricsCopy" title="Копировать LRC">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-      </button>
-      <button class="icon-btn" id="lyricsClose">✕</button>
-    </div>
-  </div>
-  <div class="lyrics-body" id="lyricsBody"></div>
 </div>
 
 <div class="modal-bg" id="modalBg">
@@ -374,988 +428,440 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 <audio id="audio" preload="metadata"></audio>
 
 <script>
-/* UTILS */
+/* Utils */
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-function fmt(sec) {
-  if (!isFinite(sec) || sec < 0) sec = 0;
-  const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
-  return m + ':' + String(s).padStart(2, '0');
-}
-function fmtLRC(t) {
-  if (!isFinite(t) || t < 0) t = 0;
-  const m = Math.floor(t / 60), s = Math.floor(t % 60), cs = Math.floor((t % 1) * 100);
-  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(cs).padStart(2,'0')}`;
-}
-function hashHue(str) { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; }
-function coverStyle(name) {
-  const h = hashHue(name || 'x');
-  return `background:linear-gradient(135deg,hsl(${h} 68% 42%),hsl(${(h + 65) % 360} 70% 26%));`;
-}
-function initials(name) {
-  return String(name || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '♪';
-}
-function toast(msg) {
-  const t = $('#toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 2400);
-}
-function sanitizeFilename(name) {
-  return String(name || 'track').replace(/[\\/:*?"<>|]/g, '_').replace(/\.+$/, '').trim().slice(0, 120) || 'track';
-}
-function downloadBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 30000);
-}
-function getTrackExt(track) {
-  const n = track.blob?.name || '';
-  const ext = n.includes('.') ? n.split('.').pop().toLowerCase() : '';
-  if (ext && ext.length <= 5) return ext;
-  const m = (track.mime || '').toLowerCase();
-  if (m.includes('mpeg')) return 'mp3';
-  if (m.includes('flac')) return 'flac';
-  if (m.includes('ogg')) return 'ogg';
-  if (m.includes('wav')) return 'wav';
-  if (m.includes('m4a') || m.includes('mp4')) return 'm4a';
-  if (m.includes('aac')) return 'aac';
-  if (m.includes('opus')) return 'opus';
-  return 'mp3';
+function fmt(sec){ if(!isFinite(sec)||sec<0)sec=0; const m=Math.floor(sec/60),s=Math.floor(sec%60); return m+':'+String(s).padStart(2,'0'); }
+function fmtLRC(t){ if(!isFinite(t)||t<0)t=0; const m=Math.floor(t/60),s=Math.floor(t%60),cs=Math.floor((t%1)*100); return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(cs).padStart(2,'0')}`; }
+function hashHue(str){let h=0;for(const ch of String(str))h=(h*31+ch.charCodeAt(0))%360;return h}
+function coverStyle(name){const h=hashHue(name||'x');return `background:linear-gradient(135deg,hsl(${h} 68% 42%),hsl(${(h+65)%360} 70% 26%))`}
+function initials(name){return String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'♪'}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2400)}
+function sanitizeFilename(n){return String(n||'track').replace(/[\\/:*?"<>|]/g,'_').replace(/\.+$/,'').trim().slice(0,120)||'track'}
+function downloadBlob(blob,filename){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),30000)}
+function getTrackExt(track){
+  const n=track.blob?.name||'';const ext=n.includes('.')?n.split('.').pop().toLowerCase():'';
+  if(ext&&ext.length<=5)return ext;
+  const m=(track.mime||'').toLowerCase();
+  if(m.includes('mpeg'))return'mp3';if(m.includes('flac'))return'flac';if(m.includes('ogg'))return'ogg';
+  if(m.includes('wav'))return'wav';if(m.includes('m4a')||m.includes('mp4'))return'm4a';
+  if(m.includes('aac'))return'aac';if(m.includes('opus'))return'opus';return'mp3';
 }
 
-/* CLIPBOARD */
-async function copyToClipboard(text) {
-  if (!text) return false;
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  } catch (e) {}
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.top = '-9999px';
-  document.body.appendChild(ta);
-  ta.select();
-  let ok = false;
-  try { ok = document.execCommand('copy'); } catch (e) {}
-  document.body.removeChild(ta);
-  return ok;
+/* Clipboard */
+async function copyToClipboard(text){
+  if(!text)return false;
+  try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return true}}catch(e){}
+  const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.top='-9999px';
+  document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);return ok;
 }
-function buildLRC(track) {
-  if (!track) return '';
-  if (track.lyricsSynced && track.lyricsSynced.length) {
-    return track.lyricsSynced.map(l => `[${fmtLRC(l.t)}] ${l.text}`).join('\n');
-  }
-  return track.lyrics || '';
-}
-async function copyCurrentLyrics() {
-  const t = state.currentTrack;
-  if (!t) { toast('Нет активного трека'); return; }
-  const text = buildLRC(t);
-  if (!text.trim()) { toast('У трека нет текста'); return; }
-  const ok = await copyToClipboard(text);
-  toast(ok
-    ? (t.lyricsSynced?.length ? `LRC скопирован (${t.lyricsSynced.length} строк)` : 'Текст скопирован')
-    : 'Не удалось скопировать');
+function buildLRC(track){if(!track)return'';if(track.lyricsSynced&&track.lyricsSynced.length){return track.lyricsSynced.map(l=>`[${fmtLRC(l.t)}] ${l.text}`).join('\n')}return track.lyrics||''}
+async function copyCurrentLyrics(){
+  const t=state.currentTrack;if(!t){toast('Нет активного трека');return}
+  const text=buildLRC(t);if(!text.trim()){toast('У трека нет текста');return}
+  const ok=await copyToClipboard(text);
+  toast(ok?(t.lyricsSynced?.length?`LRC скопирован (${t.lyricsSynced.length} строк)`:'Текст скопирован'):'Не удалось скопировать');
 }
 
 /* LRC */
-function parseLRC(text) {
-  const lines = String(text).split(/\r?\n/);
-  const result = [];
-  const re = /^\[(\d{1,2}):(\d{2})(?:[.:](\d{2,3}))?\]\s*(.*)$/;
-  for (const line of lines) {
-    const m = line.match(re);
-    if (m) {
-      const min = parseInt(m[1], 10), sec = parseInt(m[2], 10);
-      const frac = m[3] ? parseInt(m[3].padEnd(3, '0'), 10) / 1000 : 0;
-      const t = min * 60 + sec + frac;
-      const txt = m[4].trim();
-      if (txt) result.push({ t, text: txt });
-    }
-  }
-  return result.sort((a, b) => a.t - b.t);
+function parseLRC(text){
+  const lines=String(text).split(/\r?\n/);const result=[];const re=/^\[(\d{1,2}):(\d{2})(?:[.:](\d{2,3}))?\]\s*(.*)$/;
+  for(const line of lines){const m=line.match(re);if(m){const min=parseInt(m[1],10),sec=parseInt(m[2],10);const frac=m[3]?parseInt(m[3].padEnd(3,'0'),10)/1000:0;const t=min*60+sec+frac;const txt=m[4].trim();if(txt)result.push({t,text:txt})}}
+  return result.sort((a,b)=>a.t-b.t);
 }
-function hasLRCFormat(text) { return /\[\d{1,2}:\d{2}(?:[.:]\d{2,3})?\]/.test(String(text || '')); }
+function hasLRCFormat(text){return /\[\d{1,2}:\d{2}(?:[.:]\d{2,3})?\]/.test(String(text||''))}
 
 /* LRCLIB */
-async function fetchLyricsFromLRCLIB(track) {
-  const cleanTitle = String(track.title || '').replace(/\(.*?\)|\[.*?\]/g, '').trim();
-  const artist = String(track.artist || '').replace(/\(.*?\)|\[.*?\]/g, '').trim();
-  const album = albumById(track.albumId)?.title || '';
-  const duration = Math.round(track.duration || 0);
-  const headers = { 'X-User-Agent': 'SpotifyClone/1.0' };
-  if (cleanTitle && artist && duration) {
-    const p = new URLSearchParams({ track_name: cleanTitle, artist_name: artist, duration: String(duration) });
-    if (album) p.set('album_name', album);
-    try {
-      const r = await fetch(`https://lrclib.net/api/get?${p}`, { headers });
-      if (r.ok) {
-        const d = await r.json();
-        if (d.syncedLyrics) return { synced: d.syncedLyrics, plain: d.plainLyrics };
-        if (d.plainLyrics) return { synced: null, plain: d.plainLyrics };
-      }
-    } catch (e) {}
+async function fetchLyricsFromLRCLIB(track){
+  const cleanTitle=String(track.title||'').replace(/\(.*?\)|\[.*?\]/g,'').trim();
+  const artist=String(track.artist||'').replace(/\(.*?\)|\[.*?\]/g,'').trim();
+  const album=albumById(track.albumId)?.title||'';
+  const duration=Math.round(track.duration||0);
+  const headers={'X-User-Agent':'SpotifyClone/1.0'};
+  if(cleanTitle&&artist&&duration){
+    const p=new URLSearchParams({track_name:cleanTitle,artist_name:artist,duration:String(duration)});
+    if(album)p.set('album_name',album);
+    try{const r=await fetch(`https://lrclib.net/api/get?${p}`,{headers});if(r.ok){const d=await r.json();if(d.syncedLyrics)return{synced:d.syncedLyrics,plain:d.plainLyrics};if(d.plainLyrics)return{synced:null,plain:d.plainLyrics}}}catch(e){}
   }
-  if (cleanTitle) {
-    const q = [cleanTitle, artist].filter(Boolean).join(' ');
-    try {
-      const r = await fetch(`https://lrclib.net/api/search?q=${encodeURIComponent(q)}`, { headers });
-      if (r.ok) {
-        const arr = await r.json();
-        if (Array.isArray(arr) && arr.length) {
-          let best = null, bestDiff = Infinity;
-          for (const item of arr) {
-            const diff = Math.abs((item.duration || 0) - duration);
-            if (diff < bestDiff) { bestDiff = diff; best = item; }
-          }
-          if (best?.syncedLyrics) return { synced: best.syncedLyrics, plain: best.plainLyrics };
-          if (best?.plainLyrics) return { synced: null, plain: best.plainLyrics };
-        }
-      }
-    } catch (e) {}
+  if(cleanTitle){
+    const q=[cleanTitle,artist].filter(Boolean).join(' ');
+    try{const r=await fetch(`https://lrclib.net/api/search?q=${encodeURIComponent(q)}`,{headers});if(r.ok){const arr=await r.json();
+      if(Array.isArray(arr)&&arr.length){let best=null,bd=Infinity;for(const it of arr){const diff=Math.abs((it.duration||0)-duration);if(diff<bd){bd=diff;best=it}}
+        if(best?.syncedLyrics)return{synced:best.syncedLyrics,plain:best.plainLyrics};
+        if(best?.plainLyrics)return{synced:null,plain:best.plainLyrics}}}}catch(e){}
   }
   return null;
 }
 
-/* ID3v2 USLT (read/write) */
-function encodeSynchsafe(n) {
-  return [(n >> 21) & 0x7f, (n >> 14) & 0x7f, (n >> 7) & 0x7f, n & 0x7f];
-}
-function decodeSynchsafe(bytes, off) {
-  return (bytes[off] << 21) | (bytes[off+1] << 14) | (bytes[off+2] << 7) | bytes[off+3];
-}
-function encodeUTF16LE(str) {
-  const result = new Uint8Array(2 + str.length * 2);
-  result[0] = 0xFF; result[1] = 0xFE;
-  for (let i = 0; i < str.length; i++) {
-    const c = str.charCodeAt(i);
-    result[2 + i*2] = c & 0xff;
-    result[3 + i*2] = (c >> 8) & 0xff;
+/* ID3 USLT */
+function encodeSynchsafe(n){return[(n>>21)&0x7f,(n>>14)&0x7f,(n>>7)&0x7f,n&0x7f]}
+function decodeSynchsafe(b,o){return(b[o]<<21)|(b[o+1]<<14)|(b[o+2]<<7)|b[o+3]}
+function encodeUTF16LE(str){const r=new Uint8Array(2+str.length*2);r[0]=0xFF;r[1]=0xFE;for(let i=0;i<str.length;i++){const c=str.charCodeAt(i);r[2+i*2]=c&0xff;r[3+i*2]=(c>>8)&0xff}return r}
+function decodeUTF16LE(b){let start=0,le=true;if(b[0]===0xFF&&b[1]===0xFE)start=2;else if(b[0]===0xFE&&b[1]===0xFF){start=2;le=false}
+  let out='';for(let i=start;i<b.length-1;i+=2){const code=le?(b[i]|(b[i+1]<<8)):((b[i]<<8)|b[i+1]);out+=String.fromCharCode(code)}return out}
+function createUSLTFrame(text){const enc=new TextEncoder();const lyrics=encodeUTF16LE(text);const lang=enc.encode('eng');const dl=1+3+1+lyrics.length;const f=new Uint8Array(10+dl);f.set(enc.encode('USLT'),0);f[4]=(dl>>>24)&0xff;f[5]=(dl>>>16)&0xff;f[6]=(dl>>>8)&0xff;f[7]=dl&0xff;f[8]=0;f[9]=0;f[10]=1;f.set(lang,11);f[14]=0;f.set(lyrics,15);return f}
+function buildID3v2(frames){const total=frames.reduce((s,f)=>s+f.length,0);const h=new Uint8Array(10);h.set(new TextEncoder().encode('ID3'),0);h[3]=3;h[4]=0;h[5]=0;h.set(encodeSynchsafe(total),6);const r=new Uint8Array(10+total);r.set(h,0);let o=10;for(const f of frames){r.set(f,o);o+=f.length}return r}
+async function addLyricsToMP3(fileOrBlob,lyricsText){
+  const buffer=await fileOrBlob.arrayBuffer();const bytes=new Uint8Array(buffer);
+  let audioStart=0;const existing=[];
+  if(bytes[0]===0x49&&bytes[1]===0x44&&bytes[2]===0x33){
+    const ver=bytes[3];const flags=bytes[5];const size=decodeSynchsafe(bytes,6);
+    audioStart=10+size+((flags&0x10)?10:0);let pos=10;const end=10+size;
+    while(pos<end-9){if(bytes[pos]===0)break;const id=String.fromCharCode(bytes[pos],bytes[pos+1],bytes[pos+2],bytes[pos+3]);let fs;
+      if(ver===4)fs=decodeSynchsafe(bytes,pos+4);else fs=(bytes[pos+4]<<24)|(bytes[pos+5]<<16)|(bytes[pos+6]<<8)|bytes[pos+7];
+      if(fs<=0)break;if(id!=='USLT'&&id!=='SYLT')existing.push(bytes.slice(pos,pos+10+fs));pos+=10+fs}
   }
-  return result;
+  const uslt=createUSLTFrame(lyricsText);const newTag=buildID3v2([...existing,uslt]);
+  const result=new Uint8Array(newTag.length+bytes.length-audioStart);
+  result.set(newTag,0);result.set(bytes.slice(audioStart),newTag.length);
+  return new Blob([result],{type:'audio/mpeg'});
 }
-function decodeUTF16LE(bytes) {
-  let start = 0, le = true;
-  if (bytes[0] === 0xFF && bytes[1] === 0xFE) start = 2;
-  else if (bytes[0] === 0xFE && bytes[1] === 0xFF) { start = 2; le = false; }
-  let out = '';
-  for (let i = start; i < bytes.length - 1; i += 2) {
-    const code = le ? (bytes[i] | (bytes[i+1] << 8)) : ((bytes[i] << 8) | bytes[i+1]);
-    out += String.fromCharCode(code);
-  }
-  return out;
-}
-function createUSLTFrame(text) {
-  const enc = new TextEncoder();
-  const lyrics = encodeUTF16LE(text);
-  const lang = enc.encode('eng');
-  const dataLen = 1 + 3 + 1 + lyrics.length;
-  const frame = new Uint8Array(10 + dataLen);
-  frame.set(enc.encode('USLT'), 0);
-  frame[4] = (dataLen >>> 24) & 0xff;
-  frame[5] = (dataLen >>> 16) & 0xff;
-  frame[6] = (dataLen >>> 8) & 0xff;
-  frame[7] = dataLen & 0xff;
-  frame[8] = 0; frame[9] = 0;
-  frame[10] = 1; // UTF-16 with BOM
-  frame.set(lang, 11);
-  frame[14] = 0; // empty content descriptor
-  frame.set(lyrics, 15);
-  return frame;
-}
-function buildID3v2(frames) {
-  const totalLen = frames.reduce((s, f) => s + f.length, 0);
-  const header = new Uint8Array(10);
-  header.set(new TextEncoder().encode('ID3'), 0);
-  header[3] = 3; // v2.3
-  header[4] = 0;
-  header[5] = 0;
-  header.set(encodeSynchsafe(totalLen), 6);
-  const result = new Uint8Array(10 + totalLen);
-  result.set(header, 0);
-  let off = 10;
-  for (const f of frames) { result.set(f, off); off += f.length; }
-  return result;
-}
-async function addLyricsToMP3(fileOrBlob, lyricsText) {
-  const buffer = await fileOrBlob.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  let audioStart = 0;
-  const existing = [];
-  if (bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
-    const ver = bytes[3];
-    const flags = bytes[5];
-    const size = decodeSynchsafe(bytes, 6);
-    audioStart = 10 + size + ((flags & 0x10) ? 10 : 0);
-    let pos = 10;
-    const end = 10 + size;
-    while (pos < end - 9) {
-      if (bytes[pos] === 0) break;
-      const id = String.fromCharCode(bytes[pos], bytes[pos+1], bytes[pos+2], bytes[pos+3]);
-      let fs;
-      if (ver === 4) fs = decodeSynchsafe(bytes, pos + 4);
-      else fs = (bytes[pos+4] << 24) | (bytes[pos+5] << 16) | (bytes[pos+6] << 8) | bytes[pos+7];
-      if (fs <= 0) break;
-      if (id !== 'USLT' && id !== 'SYLT') existing.push(bytes.slice(pos, pos + 10 + fs));
-      pos += 10 + fs;
-    }
-  }
-  const uslt = createUSLTFrame(lyricsText);
-  const newTag = buildID3v2([...existing, uslt]);
-  const result = new Uint8Array(newTag.length + bytes.length - audioStart);
-  result.set(newTag, 0);
-  result.set(bytes.slice(audioStart), newTag.length);
-  return new Blob([result], { type: 'audio/mpeg' });
-}
-function readUSLTFromMP3(buffer) {
-  const bytes = new Uint8Array(buffer);
-  if (bytes[0] !== 0x49 || bytes[1] !== 0x44 || bytes[2] !== 0x33) return null;
-  const ver = bytes[3];
-  const size = decodeSynchsafe(bytes, 6);
-  let pos = 10;
-  const end = 10 + size;
-  while (pos < end - 9) {
-    if (bytes[pos] === 0) break;
-    const id = String.fromCharCode(bytes[pos], bytes[pos+1], bytes[pos+2], bytes[pos+3]);
-    let fs;
-    if (ver === 4) fs = decodeSynchsafe(bytes, pos + 4);
-    else fs = (bytes[pos+4] << 24) | (bytes[pos+5] << 16) | (bytes[pos+6] << 8) | bytes[pos+7];
-    if (fs <= 0) break;
-    if (id === 'USLT') {
-      const dataStart = pos + 10;
-      const enc = bytes[dataStart];
-      let descEnd = dataStart + 4;
-      if (enc === 0 || enc === 3) {
-        while (descEnd < dataStart + fs && bytes[descEnd] !== 0) descEnd++;
-        descEnd++;
-      } else {
-        while (descEnd < dataStart + fs - 1) {
-          if (bytes[descEnd] === 0 && bytes[descEnd+1] === 0) { descEnd += 2; break; }
-          descEnd += 2;
-        }
-      }
-      const data = bytes.slice(descEnd, dataStart + fs);
-      try {
-        if (enc === 0) return new TextDecoder('iso-8859-1').decode(data);
-        if (enc === 1 || enc === 2) return decodeUTF16LE(data);
-        if (enc === 3) return new TextDecoder('utf-8').decode(data);
-      } catch (e) {}
-    }
-    pos += 10 + fs;
-  }
+function readUSLTFromMP3(buffer){
+  const bytes=new Uint8Array(buffer);
+  if(bytes[0]!==0x49||bytes[1]!==0x44||bytes[2]!==0x33)return null;
+  const ver=bytes[3];const size=decodeSynchsafe(bytes,6);let pos=10;const end=10+size;
+  while(pos<end-9){if(bytes[pos]===0)break;const id=String.fromCharCode(bytes[pos],bytes[pos+1],bytes[pos+2],bytes[pos+3]);let fs;
+    if(ver===4)fs=decodeSynchsafe(bytes,pos+4);else fs=(bytes[pos+4]<<24)|(bytes[pos+5]<<16)|(bytes[pos+6]<<8)|bytes[pos+7];
+    if(fs<=0)break;
+    if(id==='USLT'){const ds=pos+10;const enc=bytes[ds];let de=ds+4;
+      if(enc===0||enc===3){while(de<ds+fs&&bytes[de]!==0)de++;de++}else{while(de<ds+fs-1){if(bytes[de]===0&&bytes[de+1]===0){de+=2;break}de+=2}}
+      const data=bytes.slice(de,ds+fs);
+      try{if(enc===0)return new TextDecoder('iso-8859-1').decode(data);
+        if(enc===1||enc===2)return decodeUTF16LE(data);
+        if(enc===3)return new TextDecoder('utf-8').decode(data)}catch(e){}}
+    pos+=10+fs}
   return null;
 }
 
 /* Script loader */
-function loadScript(src) {
-  return new Promise((res, rej) => {
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = res;
-    s.onerror = () => rej(new Error('Failed to load ' + src));
-    document.head.appendChild(s);
-  });
-}
-async function ensureJSZip() {
-  if (window.JSZip) return;
-  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
-}
-
-/* Export single track */
-async function exportTrack(track) {
-  const lrc = buildLRC(track);
-  const ext = getTrackExt(track);
-  const base = sanitizeFilename(track.title || 'track');
-
-  if (!lrc.trim()) {
-    downloadBlob(track.blob, base + '.' + ext);
-    toast('Скачано: ' + base + '.' + ext);
-    return;
-  }
-
-  if (ext === 'mp3') {
-    try {
-      const blob = await addLyricsToMP3(track.blob, lrc);
-      downloadBlob(blob, base + '.mp3');
-      toast('Скачано с текстом внутри MP3');
-      return;
-    } catch (e) {
-      console.warn('MP3 tag write failed', e);
-    }
-  }
-
-  await ensureJSZip();
-  const zip = new JSZip();
-  zip.file(base + '.' + ext, track.blob);
-  zip.file(base + '.lrc', lrc);
-  const blob = await zip.generateAsync({ type: 'blob' });
-  downloadBlob(blob, base + '.zip');
-  toast('Скачано: ZIP (файл + .lrc)');
-}
-
-/* Export album */
-async function exportAlbum(album) {
-  const list = tracksOfAlbum(album.id);
-  if (!list.length) { toast('В альбоме нет треков'); return; }
-  await ensureJSZip();
-  const zip = new JSZip();
-  const folder = zip.folder(sanitizeFilename(album.title));
-  if (album.cover) folder.file('cover.jpg', album.cover);
-  folder.file('metadata.json', JSON.stringify({
-    title: album.title,
-    artist: album.artist || ''
-  }, null, 2));
-  list.forEach((t, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    const base = `${num} - ${sanitizeFilename(t.title)}`;
-    folder.file(base + '.' + getTrackExt(t), t.blob);
-    const lrc = buildLRC(t);
-    if (lrc.trim()) folder.file(base + '.lrc', lrc);
-  });
-  const blob = await zip.generateAsync({ type: 'blob' });
-  downloadBlob(blob, sanitizeFilename(album.title) + '.zip');
-  toast('Альбом скачан как ZIP');
-}
-
-/* Export playlist */
-async function exportPlaylist(pl) {
-  const list = playlistTracks(pl);
-  if (!list.length) { toast('Плейлист пуст'); return; }
-  await ensureJSZip();
-  const zip = new JSZip();
-  list.forEach((t, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    const base = `${num} - ${sanitizeFilename(t.title)}`;
-    zip.file(base + '.' + getTrackExt(t), t.blob);
-    const lrc = buildLRC(t);
-    if (lrc.trim()) zip.file(base + '.lrc', lrc);
-  });
-  const blob = await zip.generateAsync({ type: 'blob' });
-  downloadBlob(blob, sanitizeFilename(pl.title) + '.zip');
-  toast('Плейлист скачан как ZIP');
-}
-
-/* Import ZIP */
-function showImportOverlay(text) {
-  let ov = document.getElementById('importOverlay');
-  if (!ov) {
-    ov = document.createElement('div');
-    ov.id = 'importOverlay';
-    ov.className = 'import-overlay';
-    ov.innerHTML = `<div class="spinner"></div><div id="importMsg"></div>`;
-    document.body.appendChild(ov);
-  }
-  document.getElementById('importMsg').textContent = text || 'Импорт...';
-  ov.style.display = 'flex';
-}
-function hideImportOverlay() {
-  const ov = document.getElementById('importOverlay');
-  if (ov) ov.style.display = 'none';
-}
-
-async function importZipFile(file) {
-  showImportOverlay('Загрузка JSZip...');
-  try { await ensureJSZip(); }
-  catch (e) {
-    hideImportOverlay();
-    toast('Не удалось загрузить JSZip (нужен интернет)');
-    return { albums: 0, singles: 0, error: true };
-  }
-  showImportOverlay('Чтение архива...');
-  let zip;
-  try { zip = await JSZip.loadAsync(file); }
-  catch (e) { hideImportOverlay(); toast('Повреждённый ZIP'); return { albums: 0, singles: 0, error: true }; }
-
-  const albumMap = new Map();
-  const rootAudio = [];
-  const rootLrcs = new Map();
-  const allPaths = [];
-
-  for (const [path, entry] of Object.entries(zip.files)) {
-    if (entry.dir) continue;
-    if (path.startsWith('__MACOSX/') || path.includes('/._') || path.split('/').some(p => p.startsWith('.'))) continue;
-    allPaths.push({ path, entry });
-  }
-
-  for (const { path, entry } of allPaths) {
-    const parts = path.split('/');
-    const fileName = parts[parts.length - 1];
-    const folder = parts.slice(0, -1).join('/');
-    const lower = fileName.toLowerCase();
-    const ext = lower.split('.').pop();
-
-    if (AUDIO_EXT.test(fileName)) {
-      if (folder) {
-        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
-        albumMap.get(folder).audio.push({ path, fileName, entry });
-      } else {
-        rootAudio.push({ path, fileName, entry });
-      }
-    } else if (ext === 'lrc') {
-      const base = fileName.replace(/\.lrc$/i, '').toLowerCase();
-      if (folder) {
-        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
-        albumMap.get(folder).lrcs.set(base, entry);
-      } else {
-        rootLrcs.set(base, entry);
-      }
-    } else if (/\.(jpg|jpeg|png|webp|gif)$/i.test(fileName)) {
-      if (folder && /^(cover|folder|front)\.(jpg|jpeg|png|webp)$/i.test(fileName)) {
-        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
-        albumMap.get(folder).cover = entry;
-      }
-    } else if (lower === 'metadata.json' || lower === 'album.json') {
-      if (folder) {
-        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
-        albumMap.get(folder).meta = entry;
-      }
-    }
-  }
-
-  let createdAlbums = 0, createdTracks = 0;
-  const totalFolders = albumMap.size;
-
-  for (const [folderPath, data] of albumMap.entries()) {
-    if (!data.audio.length) continue;
-    showImportOverlay(`Альбом ${createdAlbums + 1} из ${totalFolders}: ${folderPath}`);
-    let title = folderPath.split('/').pop();
-    let artist = 'Неизвестный исполнитель';
-    if (data.meta) {
-      try {
-        const meta = JSON.parse(await data.meta.async('string'));
-        if (meta.title) title = meta.title;
-        if (meta.artist) artist = meta.artist;
-      } catch (e) {}
-    }
-    let coverBlob = null;
-    if (data.cover) {
-      try { coverBlob = await data.cover.async('blob'); } catch (e) {}
-    }
-    const album = { id: uid(), title, artist, cover: coverBlob, createdAt: Date.now() };
-    await dbPut('albums', album);
-
-    data.audio.sort((a, b) => {
-      const na = a.fileName.match(/^(\d+)/), nb = b.fileName.match(/^(\d+)/);
-      if (na && nb) return parseInt(na[1]) - parseInt(nb[1]);
-      return a.fileName.localeCompare(b.fileName);
-    });
-
-    let order = 0;
-    for (const a of data.audio) {
-      const blob = await a.entry.async('blob');
-      const baseName = a.fileName.replace(/\.[^.]+$/, '');
-      const cleanTitle = baseName.replace(/^\d+[\s._-]*/, '').trim() || baseName;
-
-      let lrc = null;
-      const lrcEntry = data.lrcs.get(baseName.toLowerCase());
-      if (lrcEntry) { try { lrc = await lrcEntry.async('string'); } catch (e) {} }
-      if (!lrc && a.fileName.toLowerCase().endsWith('.mp3')) {
-        try { lrc = readUSLTFromMP3(await blob.arrayBuffer()); } catch (e) {}
-      }
-
-      const track = {
-        id: uid(),
-        title: cleanTitle,
-        artist,
-        albumId: album.id,
-        blob,
-        mime: blob.type || 'audio/mpeg',
-        duration: await getDuration(blob),
-        lyrics: lrc || '',
-        lyricsSynced: lrc && hasLRCFormat(lrc) ? parseLRC(lrc) : null,
-        addedAt: Date.now(),
-        order: order++
-      };
-      await dbPut('tracks', track);
-      createdTracks++;
-    }
-    createdAlbums++;
-  }
-
-  for (const a of rootAudio) {
-    showImportOverlay(`Сингл: ${a.fileName}`);
-    const blob = await a.entry.async('blob');
-    const baseName = a.fileName.replace(/\.[^.]+$/, '');
-    const cleanTitle = baseName.replace(/^\d+[\s._-]*/, '').trim() || baseName;
-
-    let lrc = null;
-    const lrcEntry = rootLrcs.get(baseName.toLowerCase());
-    if (lrcEntry) { try { lrc = await lrcEntry.async('string'); } catch (e) {} }
-    if (!lrc && a.fileName.toLowerCase().endsWith('.mp3')) {
-      try { lrc = readUSLTFromMP3(await blob.arrayBuffer()); } catch (e) {}
-    }
-
-    const track = {
-      id: uid(),
-      title: cleanTitle,
-      artist: 'Неизвестный исполнитель',
-      albumId: null,
-      blob,
-      mime: blob.type || 'audio/mpeg',
-      duration: await getDuration(blob),
-      lyrics: lrc || '',
-      lyricsSynced: lrc && hasLRCFormat(lrc) ? parseLRC(lrc) : null,
-      addedAt: Date.now(),
-      order: 0
-    };
-    await dbPut('tracks', track);
-    createdTracks++;
-  }
-
-  hideImportOverlay();
-  await reloadData();
-  navigate('home');
-  toast(`Импортировано: ${createdAlbums} альбомов, ${createdTracks} треков`);
-  return { albums: createdAlbums, singles: rootAudio.length, tracks: createdTracks };
-}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('Failed '+src));document.head.appendChild(s)})}
+async function ensureJSZip(){if(window.JSZip)return;await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')}
 
 /* INDEXEDDB */
-const DB_NAME = 'spotify-clone-db';
-const DB_VER = 2;
-let db = null;
-function openDB() {
-  return new Promise((res, rej) => {
-    const req = indexedDB.open(DB_NAME, DB_VER);
-    req.onupgradeneeded = e => {
-      const d = e.target.result;
-      if (!d.objectStoreNames.contains('tracks')) {
-        const s = d.createObjectStore('tracks', { keyPath: 'id' });
-        s.createIndex('albumId', 'albumId');
-      }
-      if (!d.objectStoreNames.contains('albums')) d.createObjectStore('albums', { keyPath: 'id' });
-      if (!d.objectStoreNames.contains('playlists')) d.createObjectStore('playlists', { keyPath: 'id' });
-    };
-    req.onsuccess = e => { db = e.target.result; res(db); };
-    req.onerror = e => rej(e.target.error);
-  });
+const DB_NAME='spotify-clone-db';const DB_VER=2;let db=null;
+function openDB(){return new Promise((res,rej)=>{
+  const req=indexedDB.open(DB_NAME,DB_VER);
+  req.onupgradeneeded=e=>{const d=e.target.result;
+    if(!d.objectStoreNames.contains('tracks')){const s=d.createObjectStore('tracks',{keyPath:'id'});s.createIndex('albumId','albumId')}
+    if(!d.objectStoreNames.contains('albums'))d.createObjectStore('albums',{keyPath:'id'});
+    if(!d.objectStoreNames.contains('playlists'))d.createObjectStore('playlists',{keyPath:'id'});};
+  req.onsuccess=e=>{db=e.target.result;res(db)};req.onerror=e=>rej(e.target.error);});
 }
-function dbGetAll(store) {
-  return new Promise((res, rej) => {
-    const r = db.transaction(store).objectStore(store).getAll();
-    r.onsuccess = () => res(r.result);
-    r.onerror = () => rej(r.error);
-  });
-}
-function dbPut(store, val) {
-  return new Promise((res, rej) => {
-    const r = db.transaction(store, 'readwrite').objectStore(store).put(val);
-    r.onsuccess = () => res(r.result);
-    r.onerror = () => rej(r.error);
-  });
-}
-function dbDelete(store, key) {
-  return new Promise((res, rej) => {
-    const r = db.transaction(store, 'readwrite').objectStore(store).delete(key);
-    r.onsuccess = () => res();
-    r.onerror = () => rej(r.error);
-  });
-}
+function dbGetAll(store){return new Promise((res,rej)=>{const r=db.transaction(store).objectStore(store).getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function dbPut(store,val){return new Promise((res,rej)=>{const r=db.transaction(store,'readwrite').objectStore(store).put(val);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function dbDelete(store,key){return new Promise((res,rej)=>{const r=db.transaction(store,'readwrite').objectStore(store).delete(key);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
 
 /* STATE */
-let albums = [], tracks = [], playlists = [], pendingFiles = [];
-let listRegistry = {};
-const urlCache = new Map();
-const audio = $('#audio');
-const state = { queue: [], index: -1, currentTrack: null, isPlaying: false, shuffle: false, repeat: 'off' };
+let albums=[],tracks=[],playlists=[],pendingFiles=[];
+let listRegistry={};
+const urlCache=new Map();
+const audio=$('#audio');
+const state={queue:[],index:-1,currentTrack:null,isPlaying:false,shuffle:false,repeat:'off'};
+const radio={active:false,seedTrackId:null,session:new Set(),disliked:new Set()};
 
-/* DATA HELPERS */
-function coverURL(album) {
-  if (!album || !album.cover) return null;
-  const key = 'cover_' + album.id;
-  if (!urlCache.has(key)) urlCache.set(key, URL.createObjectURL(album.cover));
+/* COVERS */
+function coverURL(album){
+  if(!album||!album.cover)return null;
+  const key='cover_'+album.id;
+  if(!urlCache.has(key))urlCache.set(key,URL.createObjectURL(album.cover));
   return urlCache.get(key);
 }
-function trackURL(track) {
-  if (!urlCache.has(track.id)) urlCache.set(track.id, URL.createObjectURL(track.blob));
+function trackCoverURL(track){
+  if(track.cover){
+    const key='tcover_'+track.id;
+    if(!urlCache.has(key))urlCache.set(key,URL.createObjectURL(track.cover));
+    return urlCache.get(key);
+  }
+  return coverURL(albumById(track.albumId));
+}
+function trackURL(track){
+  if(!urlCache.has(track.id))urlCache.set(track.id,URL.createObjectURL(track.blob));
   return urlCache.get(track.id);
 }
-function albumById(id) { return albums.find(a => a.id === id) || null; }
-function playlistById(id) { return playlists.find(p => p.id === id) || null; }
-function tracksOfAlbum(id) {
-  return tracks.filter(t => t.albumId === id).sort((a, b) => (a.order || 0) - (b.order || 0) || a.addedAt - b.addedAt);
-}
-function playlistTracks(pl) {
-  if (!pl) return [];
-  return pl.trackIds.map(id => tracks.find(t => t.id === id)).filter(Boolean);
-}
-function playlistCover(pl) {
-  const first = playlistTracks(pl)[0];
-  return first ? coverURL(albumById(first.albumId)) : null;
-}
-async function reloadData() {
-  albums = await dbGetAll('albums');
-  tracks = await dbGetAll('tracks');
-  playlists = await dbGetAll('playlists');
-  albums.sort((a, b) => b.createdAt - a.createdAt);
-  playlists.sort((a, b) => b.createdAt - a.createdAt);
-  renderSidebarAlbums();
-  renderSidebarPlaylists();
+function albumById(id){return albums.find(a=>a.id===id)||null}
+function playlistById(id){return playlists.find(p=>p.id===id)||null}
+function tracksOfAlbum(id){return tracks.filter(t=>t.albumId===id).sort((a,b)=>(a.order||0)-(b.order||0)||a.addedAt-b.addedAt)}
+function playlistTracks(pl){if(!pl)return[];return pl.trackIds.map(id=>tracks.find(t=>t.id===id)).filter(Boolean)}
+function playlistCover(pl){const f=playlistTracks(pl)[0];return f?trackCoverURL(f):null}
+function trackYear(track){if(track.year)return track.year;const al=albumById(track.albumId);return al?.year||''}
+
+async function reloadData(){
+  albums=await dbGetAll('albums');tracks=await dbGetAll('tracks');playlists=await dbGetAll('playlists');
+  albums.sort((a,b)=>b.createdAt-a.createdAt);playlists.sort((a,b)=>b.createdAt-a.createdAt);
+  renderSidebarAlbums();renderSidebarPlaylists();
 }
 
 /* NAV */
-let currentView = { name: 'home', param: null };
-function navigate(name, param = null) {
-  currentView = { name, param };
-  renderMain();
-  $$('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.view === name));
-  if (window.innerWidth <= 768) closeSidebar();
-}
-function renderMain() {
-  listRegistry = {};
-  const v = currentView;
-  if (v.name === 'home') renderHome();
-  else if (v.name === 'upload') renderUpload();
-  else if (v.name === 'album') renderAlbum(v.param);
-  else if (v.name === 'playlist') renderPlaylist(v.param);
-  else if (v.name === 'search') renderSearch();
+let currentView={name:'home',param:null};
+function navigate(name,param=null){currentView={name,param};renderMain();$$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.view===name));if(window.innerWidth<=768)closeSidebar()}
+function renderMain(){
+  listRegistry={};const v=currentView;
+  if(v.name==='home')renderHome();
+  else if(v.name==='upload')renderUpload();
+  else if(v.name==='album')renderAlbum(v.param);
+  else if(v.name==='playlist')renderPlaylist(v.param);
+  else if(v.name==='search')renderSearch();
 }
 
 /* SIDEBAR */
-function renderSidebarAlbums() {
-  const el = $('#sideAlbums');
-  if (!albums.length) {
-    el.innerHTML = `<div style="padding:10px 12px;font-size:12px;color:#666;line-height:1.6">Пока пусто.<br>Загрузите первый трек 🎵</div>`;
-    return;
-  }
-  el.innerHTML = albums.map(a => {
-    const url = coverURL(a);
-    const cover = url
-      ? `<div class="mini-cover"><img src="${url}" alt=""></div>`
-      : `<div class="mini-cover" style="${coverStyle(a.title)}">${esc(initials(a.title))}</div>`;
-    return `<button class="side-album" data-album="${a.id}">${cover}
-      <div style="min-width:0">
-        <div style="color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.title)}</div>
-        <div style="font-size:11px">${esc(a.artist || 'Альбом')}</div>
-      </div></button>`;
+function renderSidebarAlbums(){
+  const el=$('#sideAlbums');
+  if(!albums.length){el.innerHTML=`<div style="padding:10px 12px;font-size:12px;color:#666;line-height:1.6">Пока пусто.<br>Загрузите первый трек 🎵</div>`;return}
+  el.innerHTML=albums.map(a=>{
+    const url=coverURL(a);
+    const cover=url?`<div class="mini-cover"><img src="${url}" alt=""></div>`:`<div class="mini-cover" style="${coverStyle(a.title)}">${esc(initials(a.title))}</div>`;
+    return `<button class="side-album" data-album="${a.id}">${cover}<div style="min-width:0"><div style="color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.title)}</div><div style="font-size:11px">${esc(a.artist||'Альбом')}${a.year?' · '+a.year:''}</div></div></button>`;
   }).join('');
 }
-function renderSidebarPlaylists() {
-  const el = $('#sidePlaylists');
-  if (!el) return;
-  if (!playlists.length) {
-    el.innerHTML = `<div style="padding:10px 12px;font-size:12px;color:#666;line-height:1.6">Пока нет плейлистов</div>`;
-    return;
-  }
-  el.innerHTML = playlists.map(pl => {
-    const url = playlistCover(pl);
-    const cover = url
-      ? `<div class="mini-cover pl"><img src="${url}" alt=""></div>`
-      : `<div class="mini-cover pl" style="${coverStyle(pl.title)}">♪</div>`;
-    return `<button class="side-album" data-playlist="${pl.id}">${cover}
-      <div style="min-width:0">
-        <div style="color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(pl.title)}</div>
-        <div style="font-size:11px">Плейлист · ${pl.trackIds.length}</div>
-      </div></button>`;
+function renderSidebarPlaylists(){
+  const el=$('#sidePlaylists');if(!el)return;
+  if(!playlists.length){el.innerHTML=`<div style="padding:10px 12px;font-size:12px;color:#666;line-height:1.6">Пока нет плейлистов</div>`;return}
+  el.innerHTML=playlists.map(pl=>{
+    const url=playlistCover(pl);
+    const cover=url?`<div class="mini-cover pl"><img src="${url}" alt=""></div>`:`<div class="mini-cover pl" style="${coverStyle(pl.title)}">♪</div>`;
+    return `<button class="side-album" data-playlist="${pl.id}">${cover}<div style="min-width:0"><div style="color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(pl.title)}</div><div style="font-size:11px">Плейлист · ${pl.trackIds.length}</div></div></button>`;
   }).join('');
 }
 
 /* TRACK ROWS */
-function trackRowsHTML(list, listName, opts = {}) {
-  listRegistry[listName] = list;
-  if (!list.length) return `<div class="empty">${opts.emptyText || 'Здесь пока нет треков'}</div>`;
-  return `<div class="track-list">` + list.map((t, i) => {
-    const al = albumById(t.albumId);
-    const url = coverURL(al);
-    const cover = url
-      ? `<div class="tr-cover"><img src="${url}" alt=""></div>`
-      : `<div class="tr-cover" style="${coverStyle(t.title)}">${esc(initials(t.title))}</div>`;
-    const isPlaying = state.currentTrack && state.currentTrack.id === t.id;
-    const hasLyrics = t.lyricsSynced?.length || (t.lyrics && t.lyrics.trim());
-    return `<div class="track-row ${isPlaying ? 'playing' : ''}" data-list="${listName}" data-i="${i}" data-id="${t.id}">
-      <div class="tr-index">
-        <span class="num">${i + 1}</span>
-        <span class="play"><svg viewBox="0 0 24 24" width="14" height="14" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
-      </div>
+function trackRowsHTML(list,listName,opts={}){
+  listRegistry[listName]=list;
+  if(!list.length)return `<div class="empty">${opts.emptyText||'Здесь пока нет треков'}</div>`;
+  return `<div class="track-list">`+list.map((t,i)=>{
+    const al=albumById(t.albumId);
+    const url=trackCoverURL(t);
+    const year=trackYear(t);
+    const cover=url?`<div class="tr-cover"><img src="${url}" alt=""></div>`:`<div class="tr-cover" style="${coverStyle(t.title)}">${esc(initials(t.title))}</div>`;
+    const isPlaying=state.currentTrack&&state.currentTrack.id===t.id;
+    const hasLyrics=t.lyricsSynced?.length||(t.lyrics&&t.lyrics.trim());
+    const artistLine=esc(t.artist||al?.artist||'Неизвестный исполнитель')+(year?' · '+year:'');
+    const albumTitle=al?al.title:'—';
+    return `<div class="track-row ${isPlaying?'playing':''}" data-list="${listName}" data-i="${i}" data-id="${t.id}">
+      <div class="tr-index"><span class="num">${i+1}</span><span class="play"><svg viewBox="0 0 24 24" width="14" height="14" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span></div>
       ${cover}
-      <div class="tr-main">
-        <div class="tr-title">${esc(t.title)}</div>
-        <div class="tr-artist">${esc(t.artist || al?.artist || 'Неизвестный исполнитель')}</div>
-      </div>
-      ${opts.showAlbum ? `<div class="tr-album">${esc(al ? al.title : '—')}</div>` : `<div class="tr-album"></div>`}
-      <div class="tr-lyrics">${hasLyrics ? 'TXT' : ''}</div>
+      <div class="tr-main"><div class="tr-title">${esc(t.title)}</div><div class="tr-artist">${artistLine}</div></div>
+      ${opts.showAlbum?`<div class="tr-album">${esc(albumTitle)}</div>`:`<div class="tr-album"></div>`}
+      <div class="tr-lyrics">${hasLyrics?'TXT':''}</div>
       <div class="tr-dur">${fmt(t.duration)}</div>
       <button class="tr-menu" data-menu="${t.id}">⋯</button>
     </div>`;
-  }).join('') + `</div>`;
+  }).join('')+`</div>`;
 }
 
 /* HOME */
-function renderHome() {
-  const recent = [...tracks].sort((a, b) => b.addedAt - a.addedAt).slice(0, 15);
-  let html = `<div class="page"><h1>Добро пожаловать 👋</h1>`;
-
-  if (albums.length) {
-    html += `<h2>Ваши альбомы</h2><div class="grid">`;
-    html += albums.map(a => {
-      const url = coverURL(a);
-      const cnt = tracksOfAlbum(a.id).length;
-      const inner = url ? `<img src="${url}" alt="">` : `<span>${esc(initials(a.title))}</span>`;
+function renderHome(){
+  const recent=[...tracks].sort((a,b)=>b.addedAt-a.addedAt).slice(0,15);
+  let html=`<div class="page"><h1>Добро пожаловать 👋</h1>`;
+  if(albums.length){
+    html+=`<h2>Ваши альбомы</h2><div class="grid">`;
+    html+=albums.map(a=>{
+      const url=coverURL(a);const cnt=tracksOfAlbum(a.id).length;
+      const inner=url?`<img src="${url}" alt="">`:`<span>${esc(initials(a.title))}</span>`;
       return `<div class="card-item" data-album="${a.id}">
-        <div class="card-cover" style="${url ? '' : coverStyle(a.title)}">
-          ${inner}
+        <div class="card-cover" style="${url?'':coverStyle(a.title)}">${inner}
           <button class="card-play" data-playalbum="${a.id}"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
         </div>
         <div class="card-title">${esc(a.title)}</div>
-        <div class="card-sub">${esc(a.artist || '')} · ${cnt} ${plural(cnt,'трек','трека','треков')}</div>
+        <div class="card-sub">${esc(a.artist||'')}${a.year?' · '+a.year:''} · ${cnt} ${plural(cnt,'трек','трека','треков')}</div>
       </div>`;
-    }).join('') + `</div>`;
+    }).join('')+`</div>`;
   }
-  if (playlists.length) {
-    html += `<h2>Ваши плейлисты</h2><div class="grid">`;
-    html += playlists.map(pl => {
-      const url = playlistCover(pl);
-      const cnt = playlistTracks(pl).length;
+  if(playlists.length){
+    html+=`<h2>Ваши плейлисты</h2><div class="grid">`;
+    html+=playlists.map(pl=>{
+      const url=playlistCover(pl);const cnt=playlistTracks(pl).length;
       return `<div class="card-item" data-playlist="${pl.id}">
-        <div class="card-cover pl" style="${url ? '' : coverStyle(pl.title)}">
-          ${url ? `<img src="${url}" alt="">` : `<span>♪</span>`}
+        <div class="card-cover pl" style="${url?'':coverStyle(pl.title)}">
+          ${url?`<img src="${url}" alt="">`:`<span>♪</span>`}
           <button class="card-play" data-playplaylist="${pl.id}"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
         </div>
         <div class="card-title">${esc(pl.title)}</div>
         <div class="card-sub">Плейлист · ${cnt} ${plural(cnt,'трек','трека','треков')}</div>
       </div>`;
-    }).join('') + `</div>`;
+    }).join('')+`</div>`;
   }
-  html += `<h2>Недавно добавленные</h2>`;
-  html += recent.length ? trackRowsHTML(recent, 'recent', { showAlbum: true }) : `<div class="empty">У вас пока нет музыки.<br><br><button class="btn accent" onclick="navigate('upload')">Загрузить первый трек</button></div>`;
-  $('#main').innerHTML = html + `</div>`;
+  html+=`<h2>Недавно добавленные</h2>`;
+  html+=recent.length?trackRowsHTML(recent,'recent',{showAlbum:true}):`<div class="empty">У вас пока нет музыки.<br><br><button class="btn accent" onclick="navigate('upload')">Загрузить первый трек</button></div>`;
+  $('#main').innerHTML=html+`</div>`;
 }
-function plural(n, one, few, many) {
-  const m10 = n % 10, m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return one;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
-  return many;
-}
+function plural(n,one,few,many){const m10=n%10,m100=n%100;if(m10===1&&m100!==11)return one;if(m10>=2&&m10<=4&&(m100<10||m100>=20))return few;return many}
 
 /* ALBUM */
-function renderAlbum(id) {
-  const al = albumById(id);
-  if (!al) { navigate('home'); return; }
-  const list = tracksOfAlbum(id);
-  const totalSec = list.reduce((s, t) => s + (t.duration || 0), 0);
-  const url = coverURL(al);
-  $('#main').innerHTML = `<div class="page">
+function renderAlbum(id){
+  const al=albumById(id);if(!al){navigate('home');return}
+  const list=tracksOfAlbum(id);
+  const totalSec=list.reduce((s,t)=>s+(t.duration||0),0);
+  const url=coverURL(al);
+  $('#main').innerHTML=`<div class="page">
     <div class="album-header">
-      ${url ? `<div class="big-cover"><img src="${url}" alt=""></div>` : `<div class="big-cover" style="${coverStyle(al.title)}">${esc(initials(al.title))}</div>`}
+      ${url?`<div class="big-cover"><img src="${url}" alt=""></div>`:`<div class="big-cover" style="${coverStyle(al.title)}">${esc(initials(al.title))}</div>`}
       <div style="min-width:0">
         <div class="eyebrow">Альбом</div>
         <h1>${esc(al.title)}</h1>
-        <div class="muted">${esc(al.artist || 'Неизвестный исполнитель')} · ${list.length} ${plural(list.length,'трек','трека','треков')} · ${fmt(totalSec)}</div>
+        <div class="muted">${esc(al.artist||'Неизвестный исполнитель')}${al.year?' · '+al.year:''} · ${list.length} ${plural(list.length,'трек','трека','треков')} · ${fmt(totalSec)}</div>
       </div>
     </div>
     <div style="display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap">
-      <button class="btn accent" id="playAlbumBtn" ${list.length ? '' : 'disabled'}><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Слушать</button>
+      <button class="btn accent" id="playAlbumBtn" ${list.length?'':'disabled'}><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Слушать</button>
+      <button class="btn ghost small" id="radioAlbumBtn" ${list.length?'':'disabled'}>📻 Радио по альбому</button>
       <button class="btn ghost small" id="addToAlbumBtn">+ Добавить треки</button>
       <button class="btn ghost small" id="exportAlbumBtn">💾 Скачать ZIP</button>
       <button class="btn ghost small" id="deleteAlbumBtn">Удалить альбом</button>
     </div>
-    ${trackRowsHTML(list, 'album', { showAlbum: false })}
+    ${trackRowsHTML(list,'album',{showAlbum:false})}
   </div>`;
-  $('#playAlbumBtn')?.addEventListener('click', () => playFromList(list, 0));
-  $('#addToAlbumBtn')?.addEventListener('click', () => {
-    navigate('upload');
-    setTimeout(() => {
-      const sel = $('#albumSelect');
-      if (sel) { sel.value = al.id; sel.dispatchEvent(new Event('change')); }
-    }, 50);
+  $('#playAlbumBtn')?.addEventListener('click',()=>playFromList(list,0));
+  $('#radioAlbumBtn')?.addEventListener('click',()=>{
+    if(!list.length)return;
+    startRadioFromAlbum(al, list[Math.floor(Math.random()*list.length)]);
   });
-  $('#exportAlbumBtn')?.addEventListener('click', () => exportAlbum(al));
-  $('#deleteAlbumBtn')?.addEventListener('click', async () => {
-    if (!confirm(`Удалить альбом «${al.title}» и все его треки?`)) return;
-    for (const t of list) { await dbDelete('tracks', t.id); urlCache.delete(t.id); }
-    await dbDelete('albums', al.id);
-    await reloadData();
-    toast('Альбом удалён');
-    navigate('home');
+  $('#addToAlbumBtn')?.addEventListener('click',()=>{navigate('upload');setTimeout(()=>{const sel=$('#albumSelect');if(sel){sel.value=al.id;sel.dispatchEvent(new Event('change'))}},50)});
+  $('#exportAlbumBtn')?.addEventListener('click',()=>exportAlbum(al));
+  $('#deleteAlbumBtn')?.addEventListener('click',async()=>{
+    if(!confirm(`Удалить альбом «${al.title}» и все его треки?`))return;
+    for(const t of list){await dbDelete('tracks',t.id);urlCache.delete(t.id)}
+    await dbDelete('albums',al.id);await reloadData();toast('Альбом удалён');navigate('home');
   });
 }
 
 /* PLAYLIST */
-function renderPlaylist(id) {
-  const pl = playlistById(id);
-  if (!pl) { navigate('home'); return; }
-  const list = playlistTracks(pl);
-  const totalSec = list.reduce((s, t) => s + (t.duration || 0), 0);
-  const url = playlistCover(pl);
-  $('#main').innerHTML = `<div class="page">
+function renderPlaylist(id){
+  const pl=playlistById(id);if(!pl){navigate('home');return}
+  const list=playlistTracks(pl);
+  const totalSec=list.reduce((s,t)=>s+(t.duration||0),0);
+  const url=playlistCover(pl);
+  $('#main').innerHTML=`<div class="page">
     <div class="album-header">
-      ${url ? `<div class="big-cover pl"><img src="${url}" alt=""></div>` : `<div class="big-cover pl" style="${coverStyle(pl.title)}">♪</div>`}
+      ${url?`<div class="big-cover pl"><img src="${url}" alt=""></div>`:`<div class="big-cover pl" style="${coverStyle(pl.title)}">♪</div>`}
       <div style="min-width:0">
         <div class="eyebrow">Плейлист</div>
         <h1>${esc(pl.title)}</h1>
-        ${pl.description ? `<div class="pl-desc">${esc(pl.description)}</div>` : ''}
+        ${pl.description?`<div class="pl-desc">${esc(pl.description)}</div>`:''}
         <div class="muted">${list.length} ${plural(list.length,'трек','трека','треков')} · ${fmt(totalSec)}</div>
       </div>
     </div>
     <div style="display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap">
-      <button class="btn accent" id="playPlaylistBtn" ${list.length ? '' : 'disabled'}><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Слушать</button>
+      <button class="btn accent" id="playPlaylistBtn" ${list.length?'':'disabled'}><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Слушать</button>
       <button class="btn ghost small" id="editPlaylistBtn">Редактировать</button>
       <button class="btn ghost small" id="exportPlaylistBtn">💾 Скачать ZIP</button>
       <button class="btn ghost small" id="deletePlaylistBtn">Удалить плейлист</button>
     </div>
-    ${trackRowsHTML(list, 'playlist:' + pl.id, { showAlbum: true, emptyText: 'Плейлист пуст. Добавьте треки через меню ⋯ у любого трека → «В плейлист...»' })}
+    ${trackRowsHTML(list,'playlist:'+pl.id,{showAlbum:true,emptyText:'Плейлист пуст. Добавьте треки через меню ⋯ у любого трека → «В плейлист...»'})}
   </div>`;
-  $('#playPlaylistBtn')?.addEventListener('click', () => playFromList(list, 0));
-  $('#editPlaylistBtn')?.addEventListener('click', () => openEditPlaylistModal(pl));
-  $('#exportPlaylistBtn')?.addEventListener('click', () => exportPlaylist(pl));
-  $('#deletePlaylistBtn')?.addEventListener('click', async () => {
-    if (!confirm(`Удалить плейлист «${pl.title}»?`)) return;
-    await dbDelete('playlists', pl.id);
-    await reloadData();
-    toast('Плейлист удалён');
-    navigate('home');
+  $('#playPlaylistBtn')?.addEventListener('click',()=>playFromList(list,0));
+  $('#editPlaylistBtn')?.addEventListener('click',()=>openEditPlaylistModal(pl));
+  $('#exportPlaylistBtn')?.addEventListener('click',()=>exportPlaylist(pl));
+  $('#deletePlaylistBtn')?.addEventListener('click',async()=>{
+    if(!confirm(`Удалить плейлист «${pl.title}»?`))return;
+    await dbDelete('playlists',pl.id);await reloadData();toast('Плейлист удалён');navigate('home');
   });
 }
-function openCreatePlaylistModal(prefillTrackId = null) {
-  openModal('Новый плейлист', `
+function openCreatePlaylistModal(prefillTrackId=null){
+  openModal('Новый плейлист',`
     <input type="text" id="plTitle" placeholder="Название плейлиста" style="width:100%;margin-bottom:10px">
     <textarea id="plDesc" placeholder="Описание (необязательно)" style="min-height:70px"></textarea>
-  `, async () => {
-    const title = $('#plTitle').value.trim();
-    if (!title) { toast('Введите название'); return; }
-    const pl = { id: uid(), title, description: $('#plDesc').value.trim(), trackIds: prefillTrackId ? [prefillTrackId] : [], createdAt: Date.now() };
-    await dbPut('playlists', pl);
-    await reloadData();
-    if (currentView.name === 'playlist') renderMain();
-    navigate('playlist', pl.id);
-    toast('Плейлист создан');
+  `,async()=>{
+    const title=$('#plTitle').value.trim();
+    if(!title){toast('Введите название');return}
+    const pl={id:uid(),title,description:$('#plDesc').value.trim(),trackIds:prefillTrackId?[prefillTrackId]:[],createdAt:Date.now()};
+    await dbPut('playlists',pl);await reloadData();
+    if(currentView.name==='playlist')renderMain();
+    navigate('playlist',pl.id);toast('Плейлист создан');
   });
 }
-function openEditPlaylistModal(pl) {
-  openModal('Редактировать плейлист', `
+function openEditPlaylistModal(pl){
+  openModal('Редактировать плейлист',`
     <input type="text" id="plTitle" value="${esc(pl.title)}" style="width:100%;margin-bottom:10px">
-    <textarea id="plDesc" placeholder="Описание" style="min-height:70px">${esc(pl.description || '')}</textarea>
-  `, async () => {
-    const title = $('#plTitle').value.trim();
-    if (!title) { toast('Введите название'); return; }
-    pl.title = title;
-    pl.description = $('#plDesc').value.trim();
-    await dbPut('playlists', pl);
-    await reloadData();
-    renderMain();
-    toast('Сохранено');
+    <textarea id="plDesc" placeholder="Описание" style="min-height:70px">${esc(pl.description||'')}</textarea>
+  `,async()=>{
+    const title=$('#plTitle').value.trim();
+    if(!title){toast('Введите название');return}
+    pl.title=title;pl.description=$('#plDesc').value.trim();
+    await dbPut('playlists',pl);await reloadData();renderMain();toast('Сохранено');
   });
 }
-function openAddToPlaylistModal(trackId) {
-  let html = '<div class="modal-list">';
-  if (playlists.length) {
-    html += playlists.map(p => {
-      const already = p.trackIds.includes(trackId);
-      const url = playlistCover(p);
-      const cover = url ? `<div class="mli-cover"><img src="${url}" alt=""></div>` : `<div class="mli-cover" style="${coverStyle(p.title)}">♪</div>`;
-      return `<button class="modal-list-item" data-pl="${p.id}" ${already ? 'disabled' : ''}>${cover}
-        <div class="mli-info">
-          <div class="mli-title">${esc(p.title)}</div>
-          <div class="mli-sub">${p.trackIds.length} ${plural(p.trackIds.length,'трек','трека','треков')}${already ? ' · уже добавлен' : ''}</div>
-        </div></button>`;
+function openAddToPlaylistModal(trackId){
+  let html='<div class="modal-list">';
+  if(playlists.length){
+    html+=playlists.map(p=>{
+      const already=p.trackIds.includes(trackId);
+      const url=playlistCover(p);
+      const cover=url?`<div class="mli-cover"><img src="${url}" alt=""></div>`:`<div class="mli-cover" style="${coverStyle(p.title)}">♪</div>`;
+      return `<button class="modal-list-item" data-pl="${p.id}" ${already?'disabled':''}>${cover}
+        <div class="mli-info"><div class="mli-title">${esc(p.title)}</div><div class="mli-sub">${p.trackIds.length} ${plural(p.trackIds.length,'трек','трека','треков')}${already?' · уже добавлен':''}</div></div>
+      </button>`;
     }).join('');
-  } else {
-    html += '<div class="muted" style="padding:20px;text-align:center">Нет плейлистов. Создайте первый!</div>';
-  }
-  html += '</div><button class="btn accent" id="mAddNewPl" style="width:100%;margin-top:14px;justify-content:center">+ Новый плейлист</button>';
-  $('#modalTitle').textContent = 'Добавить в плейлист';
-  $('#modalBody').innerHTML = html;
-  $('#modalBg').classList.add('show');
-  $('#modalOk').style.display = 'none';
-  $('#modalCancel').textContent = 'Закрыть';
-  modalOkHandler = null;
-  $('#mAddNewPl').onclick = () => { closeModal(); openCreatePlaylistModal(trackId); };
-  $('#modalBody').onclick = async e => {
-    const item = e.target.closest('[data-pl]');
-    if (!item || item.disabled) return;
-    const pl = playlistById(item.dataset.pl);
-    if (!pl || pl.trackIds.includes(trackId)) return;
-    pl.trackIds.push(trackId);
-    await dbPut('playlists', pl);
-    await reloadData();
-    toast(`Добавлено в «${pl.title}»`);
-    closeModal();
-    if (currentView.name === 'playlist') renderMain();
+  } else { html+='<div class="muted" style="padding:20px;text-align:center">Нет плейлистов. Создайте первый!</div>' }
+  html+='</div><button class="btn accent" id="mAddNewPl" style="width:100%;margin-top:14px;justify-content:center">+ Новый плейлист</button>';
+  $('#modalTitle').textContent='Добавить в плейлист';$('#modalBody').innerHTML=html;
+  $('#modalBg').classList.add('show');$('#modalOk').style.display='none';$('#modalCancel').textContent='Закрыть';modalOkHandler=null;
+  $('#mAddNewPl').onclick=()=>{closeModal();openCreatePlaylistModal(trackId)};
+  $('#modalBody').onclick=async e=>{
+    const item=e.target.closest('[data-pl]');if(!item||item.disabled)return;
+    const pl=playlistById(item.dataset.pl);if(!pl||pl.trackIds.includes(trackId))return;
+    pl.trackIds.push(trackId);await dbPut('playlists',pl);await reloadData();
+    toast(`Добавлено в «${pl.title}»`);closeModal();
+    if(currentView.name==='playlist')renderMain();
   };
 }
 
 /* SEARCH */
-function renderSearch() {
-  $('#main').innerHTML = `<div class="page">
-    <h1>Поиск</h1>
+function renderSearch(){
+  $('#main').innerHTML=`<div class="page"><h1>Поиск</h1>
     <input type="search" id="searchInput" placeholder="Треки, альбомы, плейлисты..." style="width:100%;max-width:520px;margin-bottom:26px">
-    <div id="searchResults"></div>
-  </div>`;
-  const doSearch = () => {
-    const q = $('#searchInput').value.trim().toLowerCase();
-    const box = $('#searchResults');
-    if (!q) { box.innerHTML = `<div class="empty">Введите запрос</div>`; return; }
-    const fT = tracks.filter(t => t.title.toLowerCase().includes(q) || (t.artist || '').toLowerCase().includes(q));
-   if (fA.length) {
-      html += `<h2>Альбомы</h2><div class="grid">` + fA.map(a => {
-        const url = coverURL(a);
-        return `<div class="card-item" data-album="${a.id}">
-          <div class="card-cover" style="${url ? '' : coverStyle(a.title)}">
-            ${url ? `<img src="${url}">` : `<span>${esc(initials(a.title))}</span>`}
-          </div>
-          <div class="card-title">${esc(a.title)}</div>
-          <div class="card-sub">${esc(a.artist || '')}</div>
-        </div>`;
-      }).join('') + `</div>`;
-    }
-    if (fP.length) {
-      html += `<h2>Плейлисты</h2><div class="grid">` + fP.map(pl => {
-        const url = playlistCover(pl);
-        return `<div class="card-item" data-playlist="${pl.id}">
-          <div class="card-cover pl" style="${url ? '' : coverStyle(pl.title)}">
-            ${url ? `<img src="${url}">` : `<span>♪</span>`}
-          </div>
-          <div class="card-title">${esc(pl.title)}</div>
-          <div class="card-sub">${pl.trackIds.length} ${plural(pl.trackIds.length,'трек','трека','треков')}</div>
-        </div>`;
-      }).join('') + `</div>`;
-    }
-    html += `<h2>Треки</h2>`;
-    html += fT.length ? trackRowsHTML(fT, 'search', { showAlbum: true }) : `<div class="empty">Треки не найдены</div>`;
-    box.innerHTML = html;
+    <div id="searchResults"></div></div>`;
+  const doSearch=()=>{
+    const q=$('#searchInput').value.trim().toLowerCase();const box=$('#searchResults');
+    if(!q){box.innerHTML=`<div class="empty">Введите запрос</div>`;return}
+    const fT=tracks.filter(t=>t.title.toLowerCase().includes(q)||(t.artist||'').toLowerCase().includes(q));
+    const fA=albums.filter(a=>a.title.toLowerCase().includes(q)||(a.artist||'').toLowerCase().includes(q));
+    const fP=playlists.filter(p=>p.title.toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q));
+    let html='';
+    if(fA.length){html+=`<h2>Альбомы</h2><div class="grid">`+fA.map(a=>{
+      const url=coverURL(a);
+      return `<div class="card-item" data-album="${a.id}"><div class="card-cover" style="${url?'':coverStyle(a.title)}">${url?`<img src="${url}">`:`<span>${esc(initials(a.title))}</span>`}</div><div class="card-title">${esc(a.title)}</div><div class="card-sub">${esc(a.artist||'')}${a.year?' · '+a.year:''}</div></div>`;
+    }).join('')+`</div>`}
+    if(fP.length){html+=`<h2>Плейлисты</h2><div class="grid">`+fP.map(pl=>{
+      const url=playlistCover(pl);
+      return `<div class="card-item" data-playlist="${pl.id}"><div class="card-cover pl" style="${url?'':coverStyle(pl.title)}">${url?`<img src="${url}">`:`<span>♪</span>`}</div><div class="card-title">${esc(pl.title)}</div><div class="card-sub">${pl.trackIds.length} ${plural(pl.trackIds.length,'трек','трека','треков')}</div></div>`;
+    }).join('')+`</div>`}
+    html+=`<h2>Треки</h2>`;
+    html+=fT.length?trackRowsHTML(fT,'search',{showAlbum:true}):`<div class="empty">Треки не найдены</div>`;
+    box.innerHTML=html;
   };
-  $('#searchInput').addEventListener('input', doSearch);
-  doSearch();
-  if (window.innerWidth > 768) setTimeout(() => $('#searchInput')?.focus(), 60);
+  $('#searchInput').addEventListener('input',doSearch);doSearch();
+  if(window.innerWidth>768)setTimeout(()=>$('#searchInput')?.focus(),60);
 }
 
 /* UPLOAD */
-function renderUpload() {
-  const opts = albums.map(a => `<option value="${a.id}">${esc(a.title)}${a.artist ? ' — ' + esc(a.artist) : ''}</option>`).join('');
-  $('#main').innerHTML = `<div class="page">
-    <h1>Загрузить музыку</h1>
-
-    <button class="zip-import-btn" id="zipImportBtn">
-      📦 Импортировать ZIP (альбомы / треки / .lrc)
-    </button>
+function renderUpload(){
+  const opts=albums.map(a=>`<option value="${a.id}">${esc(a.title)}${a.artist?' — '+esc(a.artist):''}</option>`).join('');
+  $('#main').innerHTML=`<div class="page"><h1>Загрузить музыку</h1>
+    <button class="zip-import-btn" id="zipImportBtn">📦 Импортировать ZIP (альбомы / треки / .lrc)</button>
     <input type="file" id="zipFileInput" accept=".zip,application/zip" hidden>
-
     <div class="card-box">
-      <div class="field-row">
-        <label>Альбом</label>
+      <div class="field-row"><label>Куда</label>
         <select id="albumSelect" style="min-width:0;width:100%">
           <option value="__new">➕ Создать новый альбом</option>
           <option value="">Без альбома (сингл)</option>
           ${opts}
         </select>
       </div>
-      <div class="new-album-form show" id="newAlbumForm">
+      <div class="form-block show" id="newAlbumForm">
         <input type="text" id="newAlbumTitle" placeholder="Название альбома">
         <input type="text" id="newAlbumArtist" placeholder="Исполнитель (необязательно)">
+        <input type="number" id="newAlbumYear" placeholder="Год (необязательно)" min="1900" max="2100" style="width:100%">
         <label class="file-label">🖼 Обложка альбома<input type="file" id="newAlbumCover" accept="image/*" hidden></label>
         <div class="muted" id="coverName"></div>
+      </div>
+      <div class="form-block" id="singleMetaForm">
+        <div class="muted" style="margin-bottom:6px">Метаданные сингла (для всех выбранных файлов):</div>
+        <input type="text" id="singleArtist" placeholder="Исполнитель (необязательно)">
+        <input type="number" id="singleYear" placeholder="Год (необязательно)" min="1900" max="2100" style="width:100%">
+        <label class="file-label">🖼 Превью сингла<input type="file" id="singleCover" accept="image/*" hidden></label>
+        <div class="muted" id="singleCoverName"></div>
       </div>
       <div class="dropzone" id="dropzone">
         <div class="dz-title">Перетащите аудиофайлы сюда</div>
@@ -1370,164 +876,142 @@ function renderUpload() {
     </div>
   </div>`;
 
-  const sel = $('#albumSelect'), form = $('#newAlbumForm');
-  const syncForm = () => form.classList.toggle('show', sel.value === '__new');
-  sel.addEventListener('change', syncForm);
-  syncForm();
+  const sel=$('#albumSelect'),albumForm=$('#newAlbumForm'),singleForm=$('#singleMetaForm');
+  const syncForms=()=>{
+    albumForm.classList.toggle('show',sel.value==='__new');
+    singleForm.classList.toggle('show',sel.value==='');
+  };
+  sel.addEventListener('change',syncForms);syncForms();
 
-  $('#newAlbumCover').addEventListener('change', e => {
-    const f = e.target.files[0];
-    $('#coverName').textContent = f ? '✓ ' + f.name : '';
+  $('#newAlbumCover').addEventListener('change',e=>{
+    const f=e.target.files[0];$('#coverName').textContent=f?'✓ '+f.name:'';
+  });
+  $('#singleCover').addEventListener('change',e=>{
+    const f=e.target.files[0];$('#singleCoverName').textContent=f?'✓ '+f.name:'';
   });
 
-  const dz = $('#dropzone'), fi = $('#fileInput');
-  dz.addEventListener('click', () => fi.click());
-  fi.addEventListener('change', e => { addFiles(e.target.files); fi.value = ''; });
-  ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('drag'); }));
-  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('drag'); }));
-  dz.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+  const dz=$('#dropzone'),fi=$('#fileInput');
+  dz.addEventListener('click',()=>fi.click());
+  fi.addEventListener('change',e=>{addFiles(e.target.files);fi.value=''});
+  ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
+  ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
+  dz.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
 
-  $('#pendingList').addEventListener('input', e => {
-    const item = e.target.closest('.pending-item');
-    if (!item) return;
-    const i = +item.dataset.i;
-    const field = e.target.dataset.f;
-    if (field && pendingFiles[i]) pendingFiles[i][field] = e.target.value;
+  $('#pendingList').addEventListener('input',e=>{
+    const item=e.target.closest('.pending-item');if(!item)return;
+    const i=+item.dataset.i;const field=e.target.dataset.f;
+    if(field&&pendingFiles[i])pendingFiles[i][field]=e.target.value;
   });
-  $('#pendingList').addEventListener('click', e => {
-    const rm = e.target.closest('[data-remove]');
-    if (rm) { pendingFiles.splice(+rm.dataset.remove, 1); renderPending(); }
+  $('#pendingList').addEventListener('click',e=>{
+    const rm=e.target.closest('[data-remove]');
+    if(rm){pendingFiles.splice(+rm.dataset.remove,1);renderPending()}
   });
 
-  $('#uploadBtn').addEventListener('click', doUpload);
+  $('#uploadBtn').addEventListener('click',doUpload);
 
-  const zipBtn = $('#zipImportBtn');
-  const zipInput = $('#zipFileInput');
-  zipBtn.addEventListener('click', () => zipInput.click());
-  zipInput.addEventListener('change', async e => {
-    const f = e.target.files[0];
-    zipInput.value = '';
-    if (!f) return;
+  const zipBtn=$('#zipImportBtn'),zipInput=$('#zipFileInput');
+  zipBtn.addEventListener('click',()=>zipInput.click());
+  zipInput.addEventListener('change',async e=>{
+    const f=e.target.files[0];zipInput.value='';if(!f)return;
     await importZipFile(f);
   });
 
   renderPending();
 }
-
-function renderPending() {
-  const el = $('#pendingList'), btn = $('#uploadBtn');
-  if (!el) return;
-  if (!pendingFiles.length) {
-    el.innerHTML = '';
-    if (btn) { btn.disabled = true; btn.textContent = 'Загрузить'; }
-    const st = $('#uploadStatus'); if (st) st.textContent = '';
-    return;
-  }
-  if (btn) btn.disabled = false;
-  el.innerHTML = pendingFiles.map((p, i) => `
+function renderPending(){
+  const el=$('#pendingList'),btn=$('#uploadBtn');
+  if(!el)return;
+  if(!pendingFiles.length){el.innerHTML='';if(btn){btn.disabled=true;btn.textContent='Загрузить'}const st=$('#uploadStatus');if(st)st.textContent='';return}
+  if(btn)btn.disabled=false;
+  el.innerHTML=pendingFiles.map((p,i)=>`
     <div class="pending-item" data-i="${i}">
-      <div class="pi-head">
-        <span class="pi-name">🎵 ${esc(p.file.name)}</span>
-        <span class="muted">${p.duration ? fmt(p.duration) : '…'}</span>
-        <button class="pi-remove" data-remove="${i}">✕</button>
-      </div>
+      <div class="pi-head"><span class="pi-name">🎵 ${esc(p.file.name)}</span><span class="muted">${p.duration?fmt(p.duration):'…'}</span><button class="pi-remove" data-remove="${i}">✕</button></div>
       <div class="pi-fields">
         <input type="text" data-f="title" value="${esc(p.title)}" placeholder="Название">
         <input type="text" data-f="artist" value="${esc(p.artist)}" placeholder="Исполнитель">
       </div>
-      <details>
-        <summary>📝 Текст песни ${p.lyrics ? '(заполнено)' : ''}</summary>
+      <details><summary>📝 Текст песни ${p.lyrics?'(заполнено)':''}</summary>
         <textarea data-f="lyrics" placeholder="Вставьте текст (можно LRC с [mm:ss.xx])">${esc(p.lyrics)}</textarea>
       </details>
-    </div>
-  `).join('');
-  const st = $('#uploadStatus');
-  if (st) st.textContent = `Выбрано файлов: ${pendingFiles.length}`;
+    </div>`).join('');
+  const st=$('#uploadStatus');if(st)st.textContent=`Выбрано файлов: ${pendingFiles.length}`;
 }
-
-const AUDIO_EXT = /\.(mp3|wav|ogg|oga|flac|m4a|aac|opus|weba|aiff|aif|wma)$/i;
-
-async function addFiles(fileList) {
-  const files = [...fileList].filter(f => f.type.startsWith('audio/') || AUDIO_EXT.test(f.name));
-  if (!files.length) { toast('Аудиофайлы не найдены'); return; }
-  const batch = files.map(f => ({
-    id: uid(), file: f, title: f.name.replace(/\.[^.]+$/, ''),
-    artist: '', lyrics: '', duration: 0
-  }));
-  pendingFiles.push(...batch);
-  renderPending();
-  for (const p of batch) { p.duration = await getDuration(p.file); renderPending(); }
+const AUDIO_EXT=/\.(mp3|wav|ogg|oga|flac|m4a|aac|opus|weba|aiff|aif|wma)$/i;
+async function addFiles(fileList){
+  const files=[...fileList].filter(f=>f.type.startsWith('audio/')||AUDIO_EXT.test(f.name));
+  if(!files.length){toast('Аудиофайлы не найдены');return}
+  const batch=files.map(f=>({id:uid(),file:f,title:f.name.replace(/\.[^.]+$/,''),artist:'',lyrics:'',duration:0}));
+  pendingFiles.push(...batch);renderPending();
+  for(const p of batch){p.duration=await getDuration(p.file);renderPending()}
 }
+function getDuration(blob){return new Promise(res=>{const url=URL.createObjectURL(blob);const a=new Audio();a.preload='metadata';const done=d=>{URL.revokeObjectURL(url);res(isFinite(d)?d:0)};a.onloadedmetadata=()=>done(a.duration);a.onerror=()=>done(0);setTimeout(()=>done(a.duration||0),8000);a.src=url})}
+async function doUpload(){
+  if(!pendingFiles.length)return;
+  const sel=$('#albumSelect'),btn=$('#uploadBtn'),status=$('#uploadStatus');
+  btn.disabled=true;btn.textContent='Загрузка...';
+  let albumId=sel.value;
+  let singleCover=null, singleYear='', singleArtist='';
 
-function getDuration(blob) {
-  return new Promise(resolve => {
-    const url = URL.createObjectURL(blob);
-    const a = new Audio();
-    a.preload = 'metadata';
-    const done = d => { URL.revokeObjectURL(url); resolve(isFinite(d) ? d : 0); };
-    a.onloadedmetadata = () => done(a.duration);
-    a.onerror = () => done(0);
-    setTimeout(() => done(a.duration || 0), 8000);
-    a.src = url;
-  });
-}
-
-async function doUpload() {
-  if (!pendingFiles.length) return;
-  const sel = $('#albumSelect'), btn = $('#uploadBtn'), status = $('#uploadStatus');
-  btn.disabled = true; btn.textContent = 'Загрузка...';
-  let albumId = sel.value;
-
-  if (albumId === '__new') {
-    const title = $('#newAlbumTitle').value.trim();
-    if (!title) { toast('Введите название альбома'); btn.disabled = false; btn.textContent = 'Загрузить'; return; }
-    const album = { id: uid(), title, artist: $('#newAlbumArtist').value.trim(), cover: $('#newAlbumCover').files[0] || null, createdAt: Date.now() };
-    await dbPut('albums', album);
-    albumId = album.id;
-  } else if (albumId === '') {
-    albumId = null;
+  if(albumId==='__new'){
+    const title=$('#newAlbumTitle').value.trim();
+    if(!title){toast('Введите название альбома');btn.disabled=false;btn.textContent='Загрузить';return}
+    const yearVal=parseInt($('#newAlbumYear').value,10);
+    const album={id:uid(),title,artist:$('#newAlbumArtist').value.trim(),year:isFinite(yearVal)?yearVal:'',cover:$('#newAlbumCover').files[0]||null,createdAt:Date.now()};
+    await dbPut('albums',album);albumId=album.id;
+  } else if(albumId===''){
+    albumId=null;
+    singleCover=$('#singleCover').files[0]||null;
+    const y=parseInt($('#singleYear').value,10);singleYear=isFinite(y)?y:'';
+    singleArtist=$('#singleArtist').value.trim();
   }
-
-  const al = albumById(albumId);
-  let order = tracksOfAlbum(albumId).length;
-  let done = 0;
-
-  for (const p of pendingFiles) {
-    const lyricsVal = p.lyrics || '';
-    const track = {
-      id: p.id,
-      title: p.title.trim() || p.file.name.replace(/\.[^.]+$/, ''),
-      artist: p.artist.trim() || (al ? al.artist : '') || 'Неизвестный исполнитель',
+  const al=albumById(albumId);
+  let order=tracksOfAlbum(albumId).length;
+  let done=0;
+  for(const p of pendingFiles){
+    const lyricsVal=p.lyrics||'';
+    const track={
+      id:p.id,
+      title:p.title.trim()||p.file.name.replace(/\.[^.]+$/,''),
+      artist:p.artist.trim()||(al?al.artist:singleArtist)||'Неизвестный исполнитель',
       albumId,
-      blob: p.file,
-      mime: p.file.type || 'audio/mpeg',
-      duration: p.duration || 0,
-      lyrics: lyricsVal,
-      lyricsSynced: hasLRCFormat(lyricsVal) ? parseLRC(lyricsVal) : null,
-      addedAt: Date.now(),
-      order: order++
+      blob:p.file,
+      mime:p.file.type||'audio/mpeg',
+      duration:p.duration||0,
+      lyrics:lyricsVal,
+      lyricsSynced:hasLRCFormat(lyricsVal)?parseLRC(lyricsVal):null,
+      year:albumId?undefined:singleYear,
+      cover:albumId?undefined:singleCover,
+      addedAt:Date.now(),
+      order:order++
     };
-    await dbPut('tracks', track);
-    done++;
-    if (status) status.textContent = `Загружено ${done} из ${pendingFiles.length}...`;
+    if(albumId){delete track.year;delete track.cover}
+    await dbPut('tracks',track);done++;
+    if(status)status.textContent=`Загружено ${done} из ${pendingFiles.length}...`;
   }
-  pendingFiles = [];
+  pendingFiles=[];
   await reloadData();
   toast(`Загружено треков: ${done}`);
-  navigate(albumId ? 'album' : 'home', albumId);
+  navigate(albumId?'album':'home',albumId);
 }
-
-/* PLAYER */
-function playFromList(list, index) {
+  /* PLAYER */
+function playFromList(list, index, opts = {}) {
   if (!list || !list.length) return;
   state.queue = [...list];
   state.index = index;
+  if (opts.fromRadio === false) {
+    // ручной запуск — радио выключаем
+    radio.active = false;
+    radio.seedTrackId = null;
+    radio.session.clear();
+    radio.disliked.clear();
+  }
   loadCurrent();
 }
 function loadCurrent(autoplay = true) {
   const t = state.queue[state.index];
   if (!t) return;
   state.currentTrack = t;
+  if (radio.active) radio.session.add(t.id);
   audio.src = trackURL(t);
   audio.currentTime = 0;
   if (autoplay) {
@@ -1537,6 +1021,7 @@ function loadCurrent(autoplay = true) {
   updatePlayerUI();
   updateLyricsPanel();
   refreshPlayingHighlight();
+  renderQueuePanel();
 }
 function togglePlay() {
   if (!state.currentTrack) {
@@ -1555,10 +1040,16 @@ function togglePlay() {
 function nextTrack(user = true) {
   if (!state.queue.length) return;
   if (state.shuffle && state.queue.length > 1) {
-    let n; do { n = Math.floor(Math.random() * state.queue.length); } while (n === state.index);
+    let n;
+    do { n = Math.floor(Math.random() * state.queue.length); } while (n === state.index);
     state.index = n; loadCurrent(); return;
   }
   if (state.index < state.queue.length - 1) { state.index++; loadCurrent(); }
+  else if (radio.active) {
+    fillRadioQueue();
+    if (state.index < state.queue.length - 1) { state.index++; loadCurrent(); }
+    else { state.isPlaying = false; updatePlayerUI(); }
+  }
   else if (state.repeat === 'all') { state.index = 0; loadCurrent(); }
   else if (!user) { state.isPlaying = false; updatePlayerUI(); }
 }
@@ -1571,13 +1062,14 @@ function prevTrack() {
 function updatePlayerUI() {
   const t = state.currentTrack;
   if (t) {
-    const al = albumById(t.albumId);
-    const url = coverURL(al);
+    const url = trackCoverURL(t);
     const cover = $('#pCover');
     if (url) { cover.style.cssText = ''; cover.innerHTML = `<img src="${url}" alt="">`; }
     else { cover.style.cssText = coverStyle(t.title); cover.innerHTML = `<span>${esc(initials(t.title))}</span>`; }
     $('#pTitle').textContent = t.title;
-    $('#pArtist').textContent = t.artist || 'Неизвестный исполнитель';
+    let artistLine = t.artist || 'Неизвестный исполнитель';
+    if (radio.active) artistLine += ' · 📻 Радио';
+    $('#pArtist').textContent = artistLine;
     $('#durTime').textContent = fmt(audio.duration || t.duration);
   } else {
     $('#pCover').style.cssText = ''; $('#pCover').innerHTML = '';
@@ -1602,7 +1094,6 @@ function refreshPlayingHighlight() {
 /* LYRICS */
 let lyricsUserScrolled = false;
 let lyricsAutoScrollTimer = null;
-
 function updateLyricsPanel() {
   const t = state.currentTrack;
   const body = $('#lyricsBody');
@@ -1663,6 +1154,619 @@ function updateLyricsHighlight() {
   }
 }
 
+/* RADIO */
+function trackScore(candidate, seed) {
+  if (!seed || candidate.id === seed.id) return -1;
+  let score = 0;
+  if (candidate.artist && seed.artist && candidate.artist === seed.artist) score += 10;
+  if (candidate.albumId && seed.albumId && candidate.albumId === seed.albumId) score += 5;
+  const plsWithSeed = playlists.filter(p => p.trackIds.includes(seed.id));
+  for (const pl of plsWithSeed) {
+    if (pl.trackIds.includes(candidate.id)) { score += 2; break; }
+  }
+  const cy = trackYear(candidate), sy = trackYear(seed);
+  if (cy && sy && Math.abs(cy - sy) <= 2) score += 1;
+  return score;
+}
+
+function pickRadioNext(seed, count) {
+  const pool = tracks.filter(t =>
+    t.id !== seed.id &&
+    !radio.session.has(t.id) &&
+    !radio.disliked.has(t.id)
+  );
+  if (!pool.length) return [];
+
+  const scored = pool.map(t => {
+    const base = Math.max(0, trackScore(t, seed));
+    const jitter = 1 + Math.random() * 0.4;
+    return { track: t, weight: (base + 0.5) * jitter };
+  });
+
+  const picked = [];
+  const usedArtists = new Set();
+  const result = [];
+
+  while (result.length < count && scored.length) {
+    const total = scored.reduce((s, x) => s + x.weight, 0);
+    if (total <= 0) break;
+    let r = Math.random() * total;
+    let idx = 0;
+    for (; idx < scored.length; idx++) {
+      r -= scored[idx].weight;
+      if (r <= 0) break;
+    }
+    if (idx >= scored.length) idx = scored.length - 1;
+    const chosen = scored[idx].track;
+    // anti-repeat для исполнителя: не больше 2 подряд от одного артиста
+    let artistCount = 0;
+    for (let k = result.length - 1; k >= Math.max(0, result.length - 3); k--) {
+      if (result[k].artist === chosen.artist) artistCount++;
+    }
+    if (chosen.artist && artistCount >= 2) {
+      scored.splice(idx, 1);
+      continue;
+    }
+    result.push(chosen);
+    scored.splice(idx, 1);
+  }
+  return result;
+}
+
+function fillRadioQueue() {
+  if (!radio.active) return;
+  const seed = tracks.find(t => t.id === radio.seedTrackId) || state.currentTrack;
+  if (!seed) return;
+  const more = pickRadioNext(seed, 12);
+  state.queue.push(...more);
+}
+
+function startRadioFromTrack(track) {
+  if (!track || !tracks.length) { toast('Библиотека пуста'); return; }
+  radio.active = true;
+  radio.seedTrackId = track.id;
+  radio.session.clear();
+  radio.disliked.clear();
+  state.queue = [track];
+  state.index = 0;
+  fillRadioQueue();
+  loadCurrent();
+  toast('📻 Радио запущено');
+  if (currentView.name === 'radio') renderMain();
+}
+
+function startRadioFromAlbum(album, seedTrack) {
+  if (!album) return;
+  if (!seedTrack) {
+    const list = tracksOfAlbum(album.id);
+    if (!list.length) { toast('В альбоме нет треков'); return; }
+    seedTrack = list[Math.floor(Math.random() * list.length)];
+  }
+  radio.active = true;
+  radio.seedTrackId = seedTrack.id;
+  radio.session.clear();
+  radio.disliked.clear();
+  const albumTracks = tracksOfAlbum(album.id);
+  const shuffled = [...albumTracks].sort(() => Math.random() - 0.5);
+  state.queue = shuffled;
+  state.index = shuffled.findIndex(t => t.id === seedTrack.id);
+  if (state.index < 0) state.index = 0;
+  fillRadioQueue();
+  loadCurrent();
+  toast(`📻 Радио по альбому «${album.title}»`);
+}
+
+function dislikeCurrentRadio() {
+  if (!radio.active || !state.currentTrack) { toast('Радио не активно'); return; }
+  radio.disliked.add(state.currentTrack.id);
+  // убираем текущий из сессии и играем следующий
+  if (state.index < state.queue.length - 1) {
+    state.queue.splice(state.index, 1);
+    if (state.index >= state.queue.length) state.index = state.queue.length - 1;
+    loadCurrent();
+    toast('Трек больше не появится в этом радио');
+  } else {
+    toast('Дизлайк сохранён');
+  }
+}
+
+/* QUEUE PANEL */
+function openQueuePanel() {
+  $('#queuePanel').classList.add('open');
+  renderQueuePanel();
+}
+function closeQueuePanel() {
+  $('#queuePanel').classList.remove('open');
+}
+function renderQueuePanel() {
+  const body = $('#queueListBody');
+  if (!body) return;
+  if (!state.queue.length) {
+    body.innerHTML = `<div class="queue-empty">Очередь пуста.<br>Включите любой трек или радио 📻</div>`;
+    return;
+  }
+  let html = '';
+  if (radio.active) {
+    html += `<div class="queue-section-label">📻 Радио · ${state.queue.length} треков</div>`;
+  } else {
+    html += `<div class="queue-section-label">Сейчас и далее · ${state.queue.length}</div>`;
+  }
+  html += state.queue.map((t, i) => {
+    const url = trackCoverURL(t);
+    const cover = url
+      ? `<div class="queue-cover"><img src="${url}" alt=""></div>`
+      : `<div class="queue-cover" style="${coverStyle(t.title)}">${esc(initials(t.title))}</div>`;
+    const isCurrent = i === state.index;
+    return `<div class="queue-item ${isCurrent ? 'current' : ''}" data-qi="${i}">
+      <div class="queue-drag-handle" ${isCurrent ? 'style="opacity:.3;pointer-events:none"' : ''}>⋮⋮</div>
+      ${cover}
+      <div class="queue-info" data-qi-play="${i}">
+        <div class="queue-title">${esc(t.title)}</div>
+        <div class="queue-artist">${esc(t.artist || 'Неизвестный')}${isCurrent ? ' · играет' : ''}</div>
+      </div>
+      ${isCurrent ? '<div style="width:26px"></div>' : `<button class="queue-remove" data-qi-rm="${i}">✕</button>`}
+    </div>`;
+  }).join('');
+  body.innerHTML = html;
+  setupQueueDrag();
+}
+
+let dragState = null;
+
+function setupQueueDrag() {
+  const body = $('#queueListBody');
+  if (!body) return;
+  body.querySelectorAll('.queue-drag-handle').forEach(handle => {
+    handle.addEventListener('pointerdown', startDrag);
+  });
+  body.querySelectorAll('[data-qi-play]').forEach(el => {
+    el.addEventListener('click', e => {
+      const i = +el.dataset.qiPlay;
+      if (i === state.index) return;
+      state.index = i;
+      loadCurrent();
+    });
+  });
+  body.querySelectorAll('[data-qi-rm]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      const i = +el.dataset.qiRm;
+      removeFromQueue(i);
+    });
+  });
+}
+
+function startDrag(e) {
+  e.preventDefault();
+  const handle = e.currentTarget;
+  const item = handle.closest('.queue-item');
+  if (!item) return;
+  const items = [...$('#queueListBody').querySelectorAll('.queue-item')];
+  const idx = items.indexOf(item);
+  if (idx < 0 || idx === state.index) return;
+
+  const rect = item.getBoundingClientRect();
+  const placeholder = document.createElement('div');
+  placeholder.style.height = rect.height + 'px';
+  placeholder.style.margin = '4px 0';
+  placeholder.style.background = 'rgba(29,185,84,.15)';
+  placeholder.style.borderRadius = '6px';
+
+  item.classList.add('dragging');
+  item.style.position = 'fixed';
+  item.style.left = rect.left + 'px';
+  item.style.top = rect.top + 'px';
+  item.style.width = rect.width + 'px';
+  item.style.zIndex = '500';
+  item.style.pointerEvents = 'none';
+  document.body.appendChild(item);
+  item.parentNode !== document.body && item.parentNode.insertBefore(placeholder, item.nextSibling);
+
+  const placeholderAnchor = document.createElement('div');
+  // insert placeholder in original position within list
+  item._origParent = $('#queueListBody');
+  item._origNext = items[idx + 1] || null;
+  $('#queueListBody').insertBefore(placeholder, item._origNext);
+
+  const offsetY = e.clientY - rect.top;
+  let currentIdx = idx;
+
+  dragState = {
+    item, placeholder, startY: e.clientY, offsetY, currentIdx, origIdx: idx,
+    lastY: e.clientY
+  };
+
+  document.addEventListener('pointermove', onDragMove, { passive: false });
+  document.addEventListener('pointerup', onDragEnd);
+  document.addEventListener('pointercancel', onDragEnd);
+}
+
+function onDragMove(e) {
+  if (!dragState) return;
+  e.preventDefault();
+  const { item, placeholder } = dragState;
+  const y = e.clientY;
+  item.style.top = (y - dragState.offsetY) + 'px';
+
+  const body = $('#queueListBody');
+  const items = [...body.children].filter(c => c !== item);
+  const phIdx = items.indexOf(placeholder);
+
+  // определить ближайший элемент
+  let closest = null;
+  let closestDist = Infinity;
+  for (const el of items) {
+    if (el === placeholder) continue;
+    const r = el.getBoundingClientRect();
+    const mid = r.top + r.height / 2;
+    const d = Math.abs(y - mid);
+    if (d < closestDist) { closestDist = d; closest = el; }
+  }
+  if (closest) {
+    const r = closest.getBoundingClientRect();
+    const mid = r.top + r.height / 2;
+    if (y < mid) {
+      body.insertBefore(placeholder, closest);
+    } else {
+      body.insertBefore(placeholder, closest.nextSibling);
+    }
+  }
+
+  const newIdx = [...body.children].indexOf(placeholder);
+  dragState.currentIdx = newIdx;
+}
+
+function onDragEnd(e) {
+  if (!dragState) return;
+  const { item, placeholder, origIdx, currentIdx } = dragState;
+
+  document.removeEventListener('pointermove', onDragMove);
+  document.removeEventListener('pointerup', onDragEnd);
+  document.removeEventListener('pointercancel', onDragEnd);
+
+  // если индекс не изменился или перенёс на текущий — отменяем
+  if (currentIdx === origIdx || currentIdx === state.index) {
+    placeholder.parentNode && placeholder.parentNode.removeChild(placeholder);
+    item.classList.remove('dragging');
+    item.removeAttribute('style');
+    // вернуть в исходное место
+    const body = $('#queueListBody');
+    const items = [...body.querySelectorAll('.queue-item')];
+    const ref = items[origIdx] || null;
+    if (ref) body.insertBefore(item, ref);
+    else body.appendChild(item);
+    dragState = null;
+    return;
+  }
+
+  // применение перестановки
+  placeholder.parentNode && placeholder.parentNode.removeChild(placeholder);
+  item.classList.remove('dragging');
+  item.removeAttribute('style');
+
+  const body = $('#queueListBody');
+  const newRefs = [...body.querySelectorAll('.queue-item')];
+  let targetBefore = null;
+  let count = 0;
+  for (const el of [...body.children]) {
+    if (el === placeholder) continue;
+    if (count === currentIdx) { targetBefore = el; break; }
+    if (!el.classList.contains('queue-item')) continue;
+    count++;
+  }
+  // просто вставим по позиции currentIdx среди queue-item
+  const allItems = [...body.querySelectorAll('.queue-item')];
+  // placeholder уже удалён
+  const realIdx = currentIdx;
+  const beforeEl = allItems[realIdx] || null;
+  if (beforeEl) body.insertBefore(item, beforeEl);
+  else body.appendChild(item);
+
+  // реально переставить в state.queue
+  const moved = state.queue.splice(origIdx, 1)[0];
+  let targetIdx = realIdx;
+  // корректируем относительно текущего индекса
+  if (origIdx < state.index) state.index--;
+  if (origIdx < targetIdx) targetIdx--;
+  if (targetIdx < 0) targetIdx = 0;
+  if (targetIdx > state.queue.length) targetIdx = state.queue.length;
+  state.queue.splice(targetIdx, 0, moved);
+  if (origIdx > state.index && targetIdx <= state.index) state.index++;
+  if (origIdx < state.index && targetIdx >= state.index) state.index++;
+
+  dragState = null;
+  renderQueuePanel();
+  refreshPlayingHighlight();
+}
+
+function removeFromQueue(i) {
+  if (i === state.index) return;
+  if (i < state.index) state.index--;
+  state.queue.splice(i, 1);
+  renderQueuePanel();
+  refreshPlayingHighlight();
+}
+
+/* EXPORT */
+async function exportTrack(track) {
+  const lrc = buildLRC(track);
+  const ext = getTrackExt(track);
+  const base = sanitizeFilename(track.title || 'track');
+
+  if (!lrc.trim() && !track.cover && !track.year) {
+    downloadBlob(track.blob, base + '.' + ext);
+    toast('Скачано: ' + base + '.' + ext);
+    return;
+  }
+
+  if (ext === 'mp3' && lrc.trim() && !track.cover) {
+    try {
+      const blob = await addLyricsToMP3(track.blob, lrc);
+      downloadBlob(blob, base + '.mp3');
+      toast('Скачано с текстом внутри MP3');
+      return;
+    } catch (e) { console.warn(e); }
+  }
+
+  await ensureJSZip();
+  const zip = new JSZip();
+  zip.file(base + '.' + ext, track.blob);
+  if (lrc.trim()) zip.file(base + '.lrc', lrc);
+  if (track.cover) zip.file('cover.jpg', track.cover);
+  const meta = {
+    title: track.title,
+    artist: track.artist || '',
+    year: track.year || '',
+    albumId: track.albumId || null
+  };
+  if (track.albumId) {
+    const al = albumById(track.albumId);
+    if (al) {
+      meta.album = al.title;
+      meta.albumArtist = al.artist || '';
+      meta.albumYear = al.year || '';
+    }
+  }
+  zip.file(base + '.meta.json', JSON.stringify(meta, null, 2));
+  const blob = await zip.generateAsync({ type: 'blob' });
+  downloadBlob(blob, base + '.zip');
+  toast('Скачано: ZIP (файл + .lrc + превью + метаданные)');
+}
+
+async function exportAlbum(album) {
+  const list = tracksOfAlbum(album.id);
+  if (!list.length) { toast('В альбоме нет треков'); return; }
+  await ensureJSZip();
+  const zip = new JSZip();
+  const folder = zip.folder(sanitizeFilename(album.title));
+  if (album.cover) folder.file('cover.jpg', album.cover);
+  folder.file('metadata.json', JSON.stringify({
+    title: album.title,
+    artist: album.artist || '',
+    year: album.year || ''
+  }, null, 2));
+  list.forEach((t, i) => {
+    const num = String(i + 1).padStart(2, '0');
+    const base = `${num} - ${sanitizeFilename(t.title)}`;
+    folder.file(base + '.' + getTrackExt(t), t.blob);
+    const lrc = buildLRC(t);
+    if (lrc.trim()) folder.file(base + '.lrc', lrc);
+  });
+  const blob = await zip.generateAsync({ type: 'blob' });
+  downloadBlob(blob, sanitizeFilename(album.title) + '.zip');
+  toast('Альбом скачан как ZIP');
+}
+
+async function exportPlaylist(pl) {
+  const list = playlistTracks(pl);
+  if (!list.length) { toast('Плейлист пуст'); return; }
+  await ensureJSZip();
+  const zip = new JSZip();
+  list.forEach((t, i) => {
+    const num = String(i + 1).padStart(2, '0');
+    const base = `${num} - ${sanitizeFilename(t.title)}`;
+    zip.file(base + '.' + getTrackExt(t), t.blob);
+    const lrc = buildLRC(t);
+    if (lrc.trim()) zip.file(base + '.lrc', lrc);
+  });
+  const blob = await zip.generateAsync({ type: 'blob' });
+  downloadBlob(blob, sanitizeFilename(pl.title) + '.zip');
+  toast('Плейлист скачан как ZIP');
+}
+
+/* IMPORT */
+function showImportOverlay(text) {
+  let ov = document.getElementById('importOverlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'importOverlay';
+    ov.className = 'import-overlay';
+    ov.innerHTML = `<div class="spinner"></div><div id="importMsg"></div>`;
+    document.body.appendChild(ov);
+  }
+  document.getElementById('importMsg').textContent = text || 'Импорт...';
+  ov.style.display = 'flex';
+}
+function hideImportOverlay() {
+  const ov = document.getElementById('importOverlay');
+  if (ov) ov.style.display = 'none';
+}
+
+async function importZipFile(file) {
+  showImportOverlay('Загрузка JSZip...');
+  try { await ensureJSZip(); }
+  catch (e) {
+    hideImportOverlay();
+    toast('Не удалось загрузить JSZip (нужен интернет)');
+    return;
+  }
+  showImportOverlay('Чтение архива...');
+  let zip;
+  try { zip = await JSZip.loadAsync(file); }
+  catch (e) { hideImportOverlay(); toast('Повреждённый ZIP'); return; }
+
+  const albumMap = new Map();
+  const rootAudio = [];
+  const rootLrcs = new Map();
+  const rootCovers = new Map();
+  const rootMetas = new Map();
+  const allPaths = [];
+
+  for (const [path, entry] of Object.entries(zip.files)) {
+    if (entry.dir) continue;
+    if (path.startsWith('__MACOSX/') || path.includes('/._') || path.split('/').some(p => p.startsWith('.'))) continue;
+    allPaths.push({ path, entry });
+  }
+
+  for (const { path, entry } of allPaths) {
+    const parts = path.split('/');
+    const fileName = parts[parts.length - 1];
+    const folder = parts.slice(0, -1).join('/');
+    const lower = fileName.toLowerCase();
+    const ext = lower.split('.').pop();
+
+    if (AUDIO_EXT.test(fileName)) {
+      if (folder) {
+        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
+        albumMap.get(folder).audio.push({ path, fileName, entry });
+      } else {
+        rootAudio.push({ path, fileName, entry });
+      }
+    } else if (ext === 'lrc') {
+      const base = fileName.replace(/\.lrc$/i, '').toLowerCase();
+      if (folder) {
+        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
+        albumMap.get(folder).lrcs.set(base, entry);
+      } else {
+        rootLrcs.set(base, entry);
+      }
+    } else if (/\.(jpg|jpeg|png|webp|gif)$/i.test(fileName)) {
+      if (folder && /^(cover|folder|front)\.(jpg|jpeg|png|webp)$/i.test(fileName)) {
+        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
+        albumMap.get(folder).cover = entry;
+      } else if (!folder && /^cover\.(jpg|jpeg|png|webp)$/i.test(fileName)) {
+        rootCovers.set('cover.jpg', entry);
+      }
+    } else if (lower === 'metadata.json' || lower === 'album.json') {
+      if (folder) {
+        if (!albumMap.has(folder)) albumMap.set(folder, { audio: [], lrcs: new Map(), cover: null, meta: null });
+        albumMap.get(folder).meta = entry;
+      }
+    } else if (ext === 'json' && lower.endsWith('.meta.json')) {
+      const base = fileName.replace(/\.meta\.json$/i, '').toLowerCase();
+      if (!folder) {
+        rootMetas.set(base, entry);
+      }
+    }
+  }
+
+  let createdAlbums = 0, createdTracks = 0;
+  const totalFolders = albumMap.size;
+
+  for (const [folderPath, data] of albumMap.entries()) {
+    if (!data.audio.length) continue;
+    showImportOverlay(`Альбом ${createdAlbums + 1} из ${totalFolders}: ${folderPath}`);
+    let title = folderPath.split('/').pop();
+    let artist = 'Неизвестный исполнитель';
+    let year = '';
+    if (data.meta) {
+      try {
+        const meta = JSON.parse(await data.meta.async('string'));
+        if (meta.title) title = meta.title;
+        if (meta.artist) artist = meta.artist;
+        if (meta.year) year = meta.year;
+      } catch (e) {}
+    }
+    let coverBlob = null;
+    if (data.cover) {
+      try { coverBlob = await data.cover.async('blob'); } catch (e) {}
+    }
+    const album = { id: uid(), title, artist, year, cover: coverBlob, createdAt: Date.now() };
+    await dbPut('albums', album);
+
+    data.audio.sort((a, b) => {
+      const na = a.fileName.match(/^(\d+)/), nb = b.fileName.match(/^(\d+)/);
+      if (na && nb) return parseInt(na[1]) - parseInt(nb[1]);
+      return a.fileName.localeCompare(b.fileName);
+    });
+
+    let order = 0;
+    for (const a of data.audio) {
+      const blob = await a.entry.async('blob');
+      const baseName = a.fileName.replace(/\.[^.]+$/, '');
+      const cleanTitle = baseName.replace(/^\d+[\s._-]*/, '').trim() || baseName;
+
+      let lrc = null;
+      const lrcEntry = data.lrcs.get(baseName.toLowerCase());
+      if (lrcEntry) { try { lrc = await lrcEntry.async('string'); } catch (e) {} }
+      if (!lrc && a.fileName.toLowerCase().endsWith('.mp3')) {
+        try { lrc = readUSLTFromMP3(await blob.arrayBuffer()); } catch (e) {}
+      }
+
+      const track = {
+        id: uid(),
+        title: cleanTitle,
+        artist,
+        albumId: album.id,
+        blob,
+        mime: blob.type || 'audio/mpeg',
+        duration: await getDuration(blob),
+        lyrics: lrc || '',
+        lyricsSynced: lrc && hasLRCFormat(lrc) ? parseLRC(lrc) : null,
+        addedAt: Date.now(),
+        order: order++
+      };
+      await dbPut('tracks', track);
+      createdTracks++;
+    }
+    createdAlbums++;
+  }
+
+  for (const a of rootAudio) {
+    showImportOverlay(`Сингл: ${a.fileName}`);
+    const blob = await a.entry.async('blob');
+    const baseName = a.fileName.replace(/\.[^.]+$/, '');
+    const cleanTitle = baseName.replace(/^\d+[\s._-]*/, '').trim() || baseName;
+
+    let lrc = null;
+    const lrcEntry = rootLrcs.get(baseName.toLowerCase());
+    if (lrcEntry) { try { lrc = await lrcEntry.async('string'); } catch (e) {} }
+    if (!lrc && a.fileName.toLowerCase().endsWith('.mp3')) {
+      try { lrc = readUSLTFromMP3(await blob.arrayBuffer()); } catch (e) {}
+    }
+
+    let meta = {};
+    const metaEntry = rootMetas.get(baseName.toLowerCase());
+    if (metaEntry) { try { meta = JSON.parse(await metaEntry.async('string')); } catch (e) {} }
+
+    let coverBlob = null;
+    if (rootCovers.get('cover.jpg')) { try { coverBlob = await rootCovers.get('cover.jpg').async('blob'); } catch (e) {} }
+
+    const track = {
+      id: uid(),
+      title: meta.title || cleanTitle,
+      artist: meta.artist || 'Неизвестный исполнитель',
+      albumId: null,
+      blob,
+      mime: blob.type || 'audio/mpeg',
+      duration: await getDuration(blob),
+      lyrics: lrc || '',
+      lyricsSynced: lrc && hasLRCFormat(lrc) ? parseLRC(lrc) : null,
+      year: meta.year || '',
+      cover: coverBlob,
+      addedAt: Date.now(),
+      order: 0
+    };
+    await dbPut('tracks', track);
+    createdTracks++;
+  }
+
+  hideImportOverlay();
+  await reloadData();
+  navigate('home');
+  toast(`Импортировано: ${createdAlbums} альбомов, ${createdTracks} треков`);
+}
+
 /* AUDIO EVENTS */
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
@@ -1703,6 +1807,17 @@ $('#lyricsClose').addEventListener('click', () => {
   $('#lyricsBtn').classList.remove('on');
 });
 $('#lyricsCopy').addEventListener('click', copyCurrentLyrics);
+
+$('#queueBtn').addEventListener('click', openQueuePanel);
+$('#queueClose').addEventListener('click', closeQueuePanel);
+$('#queueClearBtn').addEventListener('click', () => {
+  if (state.index < 0) return;
+  const cur = state.queue[state.index];
+  state.queue = [cur];
+  state.index = 0;
+  renderQueuePanel();
+  toast('Очередь очищена');
+});
 
 /* GLOBAL CLICKS */
 document.addEventListener('click', e => {
@@ -1780,7 +1895,9 @@ function openTrackMenu(rect, track, playlistId = null) {
 
   let html = `
     <button data-act="play">▶ Воспроизвести</button>
+    <button data-act="radio">📻 Радио по треку</button>
     <button data-act="addto">➕ В плейлист...</button>
+    <button data-act="queue">➕ В очередь</button>
     <button data-act="lyrics">${lyricsLabel}</button>
     <button data-act="download">💾 Скачать${buildLRC(track).trim() ? ' с текстом' : ''}</button>
     <button data-act="rename">✏️ Переименовать</button>
@@ -1803,7 +1920,14 @@ function openTrackMenu(rect, track, playlistId = null) {
     closeCtxMenu();
 
     if (act === 'play') playFromList([track], 0);
+    else if (act === 'radio') startRadioFromTrack(track);
     else if (act === 'addto') openAddToPlaylistModal(track.id);
+    else if (act === 'queue') {
+      state.queue.push(track);
+      if (state.index < 0) { state.index = 0; loadCurrent(); }
+      else renderQueuePanel();
+      toast('Добавлено в очередь');
+    }
     else if (act === 'download') exportTrack(track);
     else if (act === 'rmplaylist' && playlistId) {
       const pl = playlistById(playlistId);
@@ -1818,10 +1942,13 @@ function openTrackMenu(rect, track, playlistId = null) {
     else if (act === 'rename') {
       openModal('Переименовать трек', `
         <input type="text" id="mTitle" value="${esc(track.title)}" style="width:100%;margin-bottom:10px" placeholder="Название">
-        <input type="text" id="mArtist" value="${esc(track.artist || '')}" style="width:100%" placeholder="Исполнитель">
+        <input type="text" id="mArtist" value="${esc(track.artist || '')}" style="width:100%;margin-bottom:10px" placeholder="Исполнитель">
+        <input type="number" id="mYear" value="${esc(track.year || '')}" placeholder="Год" min="1900" max="2100" style="width:100%">
       `, async () => {
         track.title = $('#mTitle').value.trim() || track.title;
         track.artist = $('#mArtist').value.trim();
+        const y = parseInt($('#mYear').value, 10);
+        track.year = isFinite(y) ? y : (track.year || '');
         await dbPut('tracks', track);
         await reloadData();
         renderMain();
@@ -1848,6 +1975,7 @@ function openTrackMenu(rect, track, playlistId = null) {
         state.currentTrack = null; state.queue = []; state.index = -1;
         state.isPlaying = false;
         updatePlayerUI(); updateLyricsPanel();
+        renderQueuePanel();
       }
       renderMain();
       toast('Трек удалён');
@@ -1943,12 +2071,8 @@ function openLyricsModal(track) {
       if (!res) { toast('Ничего не найдено'); return; }
       if (res.synced) { ta.value = res.synced; updateHint(); toast('Найдены тайминги LRC'); }
       else if (res.plain) { ta.value = res.plain; updateHint(); toast('Найден текст без таймингов'); }
-    } catch (e) {
-      toast('Ошибка сети');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = orig;
-    }
+    } catch (e) { toast('Ошибка сети'); }
+    finally { btn.disabled = false; btn.textContent = orig; }
   });
 
   $('#mTapSync')?.addEventListener('click', () => {
@@ -1969,11 +2093,8 @@ function openLyricsModal(track) {
     const val = ta.value;
     if (!val.trim()) { toast('Нечего копировать'); return; }
     const ok = await copyToClipboard(val);
-    if (ok) {
-      toast(hasLRCFormat(val) ? `LRC скопирован (${parseLRC(val).length} строк)` : 'Текст скопирован');
-    } else {
-      toast('Не удалось скопировать');
-    }
+    if (ok) toast(hasLRCFormat(val) ? `LRC скопирован (${parseLRC(val).length} строк)` : 'Текст скопирован');
+    else toast('Не удалось скопировать');
   });
 }
 
@@ -2126,7 +2247,7 @@ function closeTapSync() {
   tapSync = null;
 }
 
-/* MOBILE SIDEBAR */
+/* SIDEBAR MOBILE */
 function closeSidebar() {
   $('#sidebar')?.classList.remove('open');
   $('#sidebarOverlay')?.classList.remove('show');
@@ -2208,12 +2329,13 @@ function syncFullPlayerUI() {
   const shuffleBtn = document.getElementById('fpShuffleBtn');
   const repeatBtn = document.getElementById('fpRepeatBtn');
   if (t) {
-    const al = albumById(t.albumId);
-    const url = coverURL(al);
+    const url = trackCoverURL(t);
     if (url) { cover.style.cssText = ''; cover.innerHTML = `<img src="${url}" alt="">`; }
     else { cover.style.cssText = coverStyle(t.title); cover.innerHTML = `<span>${esc(initials(t.title))}</span>`; }
     title.textContent = t.title;
-    artist.textContent = t.artist || 'Неизвестный исполнитель';
+    let artistLine = t.artist || 'Неизвестный исполнитель';
+    if (radio.active) artistLine += ' · 📻 Радио';
+    artist.textContent = artistLine;
     durTime.textContent = fmt(audio.duration || t.duration);
   } else {
     cover.style.cssText = ''; cover.innerHTML = '';
@@ -2253,6 +2375,9 @@ document.getElementById('fpRepeatBtn')?.addEventListener('click', () => {
 document.getElementById('fpLyricsBtn')?.addEventListener('click', () => {
   document.getElementById('lyricsPanel').classList.add('open');
   document.getElementById('lyricsBtn').classList.add('on');
+});
+document.getElementById('fpQueueBtn')?.addEventListener('click', () => {
+  openQueuePanel();
 });
 document.getElementById('fpSeekBar')?.addEventListener('pointerdown', e => {
   if (!audio.duration) return;
@@ -2331,11 +2456,8 @@ updatePlayerUI = function () {
   navigate('home');
   updatePlayerUI();
   updateLyricsPanel();
+  renderQueuePanel();
 })();
 </script>
 </body>
 </html>
-    const fA = albums.filter(a => a.title.toLowerCase().includes(q) || (a.artist || '').toLowerCase().includes(q));
-    const fP = playlists.filter(p => p.title.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q));
-    let html = '';
-    
